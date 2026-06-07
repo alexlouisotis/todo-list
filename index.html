@@ -267,7 +267,7 @@ textarea.form-input { resize: vertical; min-height: 72px; }
         <span class="stat-chip-value left" id="s-left">0</span>
       </div>
       <div class="stat-chip">
-        <span class="stat-chip-label">Inbox</span>
+        <span class="stat-chip-label">Uncategorized</span>
         <span class="stat-chip-value unc" id="s-unc">0</span>
       </div>
       <button class="btn-primary" onclick="openAddGroup()">+ Add Group</button>
@@ -344,15 +344,8 @@ textarea.form-input { resize: vertical; min-height: 72px; }
       <label class="form-label">Urgency <span class="req">*</span></label>
       <div class="urgency-btns" id="urgency-btns"></div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label" style="margin-bottom:0.4rem">Due Date</label>
-          <input type="date" class="form-input" id="tm-due">
-        </div>
-      </div>
-
-      <label class="form-label" style="margin-top:0.75rem">Description</label>
-      <textarea class="form-input" id="tm-desc" placeholder="Optional notes or details…" rows="3"></textarea>
+      <label class="form-label" style="margin-top:0.25rem">Due Date</label>
+      <input type="date" class="form-input" id="tm-due">
     </div>
     <div class="modal-ftr" id="task-modal-ftr">
       <button class="btn-sec" onclick="closeTaskModal()">Cancel</button>
@@ -540,17 +533,8 @@ function buildGroupCard(g) {
   }
   attachItemDropZone(list, g.id, false);
 
-  const addRow = document.createElement('div');
-  addRow.className = 'add-row';
-  addRow.innerHTML = `
-    <span class="add-row-plus">+</span>
-    <input class="add-input" id="add-${g.id}" placeholder="Type a task and press Enter…"
-      onkeydown="if(event.key==='Enter')openNewTaskModal('${g.id}',this.value)">
-    <button class="add-submit" onclick="openNewTaskModal('${g.id}',document.getElementById('add-${g.id}').value)">Add</button>`;
-
   card.appendChild(hdr);
   card.appendChild(list);
-  card.appendChild(addRow);
 
   if (done > 0) {
     const ftr = document.createElement('div');
@@ -574,25 +558,23 @@ function buildItemEl(item, gid) {
 
   const due = fmtDue(item.dueDate);
   const dueHtml = due ? `<span class="due-chip ${due.cls}">${due.label}</span>` : '';
-  const descHtml = item.description ? `<span style="font-size:0.68rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px">${esc(item.description)}</span>` : '';
+  const checkHtml = isUnc ? '' : `<div class="item-check${item.done ? ' checked' : ''}">${item.done ? '✓' : ''}</div>`;
 
   el.innerHTML = `
     <span class="item-drag-handle" title="Drag to reorder">⠿</span>
-    <div class="item-check${item.done ? ' checked' : ''}">
-      ${item.done ? '✓' : ''}
-    </div>
+    ${checkHtml}
     <div class="item-body">
       <span class="item-title">${esc(item.text)}</span>
       <div class="item-meta">
         <span class="urg-pill ${item.urgency}">${URG_LABELS[item.urgency] || 'Medium'}</span>
         ${dueHtml}
-        ${descHtml}
       </div>
     </div>
     <button class="item-del" title="Delete">✕</button>`;
 
-  // Checkbox click
-  el.querySelector('.item-check').addEventListener('click', e => {
+  // Checkbox click (only present on non-uncategorized items)
+  const checkEl = el.querySelector('.item-check');
+  if (checkEl) checkEl.addEventListener('click', e => {
     e.stopPropagation();
     toggleItem(gid, item.id);
   });
@@ -685,6 +667,7 @@ function toggleItem(gid, iid) {
   i.done = !i.done; save(); render();
 }
 function deleteItem(gid, iid) {
+  if (!confirm('Delete this task?')) return;
   if (gid === UNC) { S.uncategorized = S.uncategorized.filter(x => x.id !== iid); }
   else { const g = S.groups.find(x => x.id === gid); if (!g) return; g.items = g.items.filter(x => x.id !== iid); }
   save(); render();
@@ -743,7 +726,6 @@ function openNewTaskModal(gid, prefill) {
   tmGid = gid; tmIid = null;
   document.getElementById('task-modal-title').textContent = 'Add Task';
   document.getElementById('tm-title').value = (prefill || '').trim();
-  document.getElementById('tm-desc').value  = '';
   document.getElementById('tm-due').value   = '';
   buildUrgencyBtns('medium');
   document.getElementById('task-modal-ftr').innerHTML = `
@@ -762,7 +744,6 @@ function openEditTaskModal(gid, iid) {
   tmGid = gid; tmIid = iid;
   document.getElementById('task-modal-title').textContent = 'Edit Task';
   document.getElementById('tm-title').value = item.text;
-  document.getElementById('tm-desc').value  = item.description || '';
   document.getElementById('tm-due').value   = item.dueDate || '';
   buildUrgencyBtns(item.urgency || 'medium');
   document.getElementById('task-modal-ftr').innerHTML = `
@@ -790,7 +771,6 @@ function saveTask() {
   const data = {
     text: title,
     urgency: tmUrgency,
-    description: document.getElementById('tm-desc').value.trim(),
     dueDate: document.getElementById('tm-due').value,
   };
 
