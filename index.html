@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do List</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #eef0f7;
+  --card: #fff;
+  --border: #e5e9f0;
+  --text: #1e293b;
+  --text2: #475569;
+  --muted: #94a3b8;
+  --purple: #7c3aed;
+  --purple-l: #ede9fe;
+  --green: #059669;
+  --green-l: #d1fae5;
+  --red: #dc2626;
+  --red-l: #fee2e2;
+  --blue: #3b82f6;
+  --blue-l: #dbeafe;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --r: 12px;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.hdr-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 2rem;
+  gap: 1rem;
+}
+.hdr-left h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.hdr-sub {
+  font-size: 0.73rem;
+  color: var(--muted);
+}
+.hdr-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+.stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 5px 11px;
+}
+.stat-chip-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.stat-chip-value {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.stat-chip-value.done  { color: var(--green); }
+.stat-chip-value.left  { color: var(--purple); }
+
+.btn-primary {
+  background: var(--purple);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  transition: background 0.12s;
+}
+.btn-primary:hover { background: #6d28d9; }
+
+/* ── PAGE ── */
+.page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+}
+
+/* Progress bar */
+.progress-wrap {
+  background: white;
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.progress-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text2);
+  white-space: nowrap;
+  min-width: 90px;
+}
+.progress-track {
+  flex: 1;
+  height: 7px;
+  background: var(--bg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--purple);
+  border-radius: 4px;
+  transition: width 0.35s ease;
+}
+
+/* ── GROUPS GRID ── */
+.groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+/* ── GROUP CARD ── */
+.group-card {
+  background: var(--card);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: box-shadow 0.15s, opacity 0.15s;
+}
+.group-card.grp-drag-over {
+  box-shadow: 0 0 0 2px var(--purple), 0 4px 12px rgba(0,0,0,0.1);
+}
+.group-card.grp-dragging { opacity: 0.35; }
+
+.group-header {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.85rem;
+  gap: 0.45rem;
+  cursor: grab;
+  user-select: none;
+}
+.group-header:active { cursor: grabbing; }
+
+.grp-drag-icon {
+  color: rgba(255,255,255,0.45);
+  font-size: 1rem;
+  flex-shrink: 0;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.grp-name {
+  flex: 1;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: white;
+  background: none;
+  border: none;
+  outline: none;
+  min-width: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+.grp-name:focus {
+  background: rgba(255,255,255,0.2);
+  border-radius: 4px;
+  padding: 1px 5px;
+  cursor: text;
+}
+
+.grp-count {
+  font-size: 0.68rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.22);
+  color: white;
+  border-radius: 10px;
+  padding: 1px 8px;
+  flex-shrink: 0;
+}
+
+.grp-add-btn {
+  background: rgba(255,255,255,0.18);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+.grp-add-btn:hover { background: rgba(255,255,255,0.32); }
+
+.grp-menu-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.55);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 1px 3px;
+  border-radius: 4px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color 0.12s, background 0.12s;
+}
+.grp-menu-btn:hover { color: white; background: rgba(255,255,255,0.18); }
+
+/* ── ITEMS LIST ── */
+.grp-items {
+  min-height: 4px;
+  padding: 4px 0;
+}
+.grp-items.drop-active {
+  background: rgba(124,58,237,0.04);
+  min-height: 44px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  padding: 0.4rem 0.85rem;
+  gap: 0.55rem;
+  transition: background 0.1s;
+  position: relative;
+}
+.task-item:hover { background: #f8fafc; }
+.task-item.is-done { opacity: 0.55; }
+.task-item.item-dragging { opacity: 0.25; }
+.task-item.item-drop-above { border-top: 2px solid var(--purple); }
+.task-item.item-drop-below { border-bottom: 2px solid var(--purple); }
+
+.item-drag-handle {
+  color: var(--muted);
+  font-size: 0.9rem;
+  cursor: grab;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.12s;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.task-item:hover .item-drag-handle { opacity: 1; }
+
+.item-check {
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: white;
+}
+.item-check.checked {
+  background: var(--green);
+  border-color: var(--green);
+}
+.item-check:hover:not(.checked) { border-color: var(--purple); }
+
+.item-text {
+  flex: 1;
+  font-size: 0.82rem;
+  color: var(--text);
+  outline: none;
+  background: none;
+  border: none;
+  padding: 1px 3px;
+  border-radius: 4px;
+  cursor: text;
+  min-width: 0;
+  font-family: inherit;
+  resize: none;
+  overflow: hidden;
+  line-height: 1.4;
+  word-break: break-word;
+}
+.item-text:focus { background: var(--purple-l); color: var(--purple); }
+.task-item.is-done .item-text {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.item-del {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 2px 3px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.12s, color 0.12s;
+  line-height: 1;
+}
+.task-item:hover .item-del { opacity: 1; }
+.item-del:hover { color: var(--red); }
+
+/* ── ADD TASK ROW ── */
+.add-row {
+  display: flex;
+  align-items: center;
+  padding: 0.35rem 0.85rem 0.55rem;
+  gap: 0.55rem;
+  border-top: 1px solid var(--border);
+}
+.add-row-plus {
+  color: var(--muted);
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+.add-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.82rem;
+  color: var(--text);
+  background: none;
+  padding: 2px 3px;
+  font-family: inherit;
+  border-radius: 4px;
+}
+.add-input::placeholder { color: var(--muted); }
+.add-input:focus { background: var(--purple-l); color: var(--purple); }
+.add-submit {
+  background: var(--purple);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.12s;
+  opacity: 0;
+  transition: opacity 0.12s, background 0.12s;
+}
+.add-row:focus-within .add-submit { opacity: 1; }
+.add-submit:hover { background: #6d28d9; }
+
+/* ── GROUP FOOTER ── */
+.grp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.85rem 0.6rem;
+  border-top: 1px solid var(--border);
+}
+.grp-done-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.grp-clear-btn {
+  font-size: 0.72rem;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 7px;
+  border-radius: 5px;
+  transition: color 0.12s, background 0.12s;
+}
+.grp-clear-btn:hover { color: var(--red); background: var(--red-l); }
+
+/* ── GROUP EMPTY STATE ── */
+.grp-empty {
+  text-align: center;
+  padding: 1rem 0.85rem 0.6rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+/* ── PAGE EMPTY STATE ── */
+.empty-page {
+  text-align: center;
+  padding: 5rem 2rem;
+}
+.empty-icon { font-size: 3rem; margin-bottom: 0.75rem; }
+.empty-page h3 { font-size: 1.1rem; font-weight: 600; color: var(--text2); margin-bottom: 0.35rem; }
+.empty-page p  { font-size: 0.82rem; color: var(--muted); }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.38);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.22);
+  width: 380px;
+  max-width: 95vw;
+}
+.modal-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.modal-hdr h3 { font-size: 0.95rem; font-weight: 700; }
+.modal-x {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 2px;
+  line-height: 1;
+}
+.modal-x:hover { color: var(--text); }
+.modal-body { padding: 1.25rem; }
+.form-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+.form-input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  margin-bottom: 1rem;
+}
+.form-input:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px var(--purple-l);
+}
+.color-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 0.25rem;
+}
+.c-swatch {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: transform 0.1s, border-color 0.1s;
+}
+.c-swatch:hover { transform: scale(1.15); }
+.c-swatch.sel { border-color: #1e293b; }
+.modal-ftr {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--border);
+}
+.btn-sec {
+  background: var(--bg);
+  color: var(--text2);
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.btn-sec:hover { background: var(--border); }
+.btn-danger {
+  background: var(--red-l);
+  color: var(--red);
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  margin-right: auto;
+}
+.btn-danger:hover { background: var(--red); color: white; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="hdr-inner">
+    <div class="hdr-left">
+      <h1>To-Do List</h1>
+      <div class="hdr-sub" id="hdr-sub">All tasks</div>
+    </div>
+    <div class="hdr-right">
+      <div class="stat-chip">
+        <span class="stat-chip-label">Total</span>
+        <span class="stat-chip-value" id="s-total">0</span>
+      </div>
+      <div class="stat-chip">
+        <span class="stat-chip-label">Done</span>
+        <span class="stat-chip-value done" id="s-done">0</span>
+      </div>
+      <div class="stat-chip">
+        <span class="stat-chip-label">Left</span>
+        <span class="stat-chip-value left" id="s-left">0</span>
+      </div>
+      <button class="btn-primary" onclick="openAddGroup()">+ Add Group</button>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="page">
+  <div class="progress-wrap" id="progress-wrap" style="display:none">
+    <span class="progress-label" id="progress-label">0% complete</span>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+  <div class="groups-grid" id="groups-grid"></div>
+  <div class="empty-page" id="empty-page" style="display:none">
+    <div class="empty-icon">☑️</div>
+    <h3>No groups yet</h3>
+    <p>Click "+ Add Group" to create your first task list.</p>
+  </div>
+</main>
+
+<!-- GROUP MODAL -->
+<div class="modal-overlay" id="grp-modal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="grp-modal-title">Add Group</h3>
+      <button class="modal-x" onclick="closeGrpModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <label class="form-label">Group Name</label>
+      <input type="text" class="form-input" id="grp-name-input" placeholder="e.g. Work, Personal, Shopping…" maxlength="50"
+             onkeydown="if(event.key==='Enter')saveGroup()">
+      <label class="form-label">Color</label>
+      <div class="color-row" id="color-row"></div>
+    </div>
+    <div class="modal-ftr" id="grp-modal-ftr">
+      <button class="btn-sec" onclick="closeGrpModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveGroup()">Add Group</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONSTANTS ──
+const KEY = 'todoList_v1';
+const COLORS = ['#7c3aed','#059669','#dc2626','#3b82f6','#f59e0b','#0d9488','#db2777','#64748b'];
+
+// ── STATE ──
+let S = { groups: [] };
+let editGrpId  = null;
+let pickedColor = COLORS[0];
+let dragGrpId   = null;
+let dragItemId  = null;
+let dragItemGrp = null;
+
+// ── PERSISTENCE ──
+function load() {
+  try { const r = localStorage.getItem(KEY); if (r) S = JSON.parse(r); } catch(e) {}
+  if (!Array.isArray(S.groups)) S.groups = [];
+}
+function save() { localStorage.setItem(KEY, JSON.stringify(S)); }
+function uid()  { return Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
+
+// ── STATS ──
+function stats() {
+  let total = 0, done = 0;
+  for (const g of S.groups) { total += g.items.length; done += g.items.filter(i=>i.done).length; }
+  return { total, done, left: total - done };
+}
+
+// ── RENDER ──
+function render() {
+  const st = stats();
+  document.getElementById('s-total').textContent = st.total;
+  document.getElementById('s-done').textContent  = st.done;
+  document.getElementById('s-left').textContent  = st.left;
+
+  const groups = S.groups.length;
+  document.getElementById('hdr-sub').textContent =
+    groups === 0 ? 'No groups yet' :
+    `${groups} group${groups !== 1 ? 's' : ''} · ${st.total} task${st.total !== 1 ? 's' : ''}`;
+
+  // Progress
+  const pw = document.getElementById('progress-wrap');
+  pw.style.display = st.total > 0 ? '' : 'none';
+  const pct = st.total > 0 ? Math.round((st.done / st.total) * 100) : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = pct + '% complete';
+
+  // Empty
+  document.getElementById('empty-page').style.display = groups === 0 ? '' : 'none';
+
+  // Groups
+  const grid = document.getElementById('groups-grid');
+  grid.innerHTML = '';
+  for (const g of S.groups) grid.appendChild(buildGroupCard(g));
+}
+
+// ── BUILD GROUP CARD ──
+function buildGroupCard(g) {
+  const done  = g.items.filter(i => i.done).length;
+  const total = g.items.length;
+
+  const card = document.createElement('div');
+  card.className = 'group-card';
+  card.dataset.gid = g.id;
+
+  // ── Header ──
+  const hdr = document.createElement('div');
+  hdr.className = 'group-header';
+  hdr.style.background = g.color;
+  hdr.draggable = true;
+  hdr.innerHTML = `
+    <span class="grp-drag-icon">⠿</span>
+    <input class="grp-name" type="text" value="${esc(g.name)}" data-gid="${g.id}"
+      onblur="renameGrp(this)"
+      onkeydown="if(event.key==='Enter')this.blur()"
+      onclick="event.stopPropagation()">
+    <span class="grp-count">${total}</span>
+    <button class="grp-add-btn" onclick="focusAdd('${g.id}')">+ Add</button>
+    <button class="grp-menu-btn" title="Edit group" onclick="openEditGroup('${g.id}')">⋯</button>`;
+
+  hdr.addEventListener('dragstart', e => {
+    dragGrpId = g.id; dragItemId = null;
+    e.dataTransfer.effectAllowed = 'move';
+    setTimeout(() => card.classList.add('grp-dragging'), 0);
+  });
+  hdr.addEventListener('dragend', () => {
+    card.classList.remove('grp-dragging');
+    document.querySelectorAll('.group-card').forEach(c => c.classList.remove('grp-drag-over'));
+    dragGrpId = null;
+  });
+
+  card.addEventListener('dragover', e => {
+    if (dragGrpId && dragGrpId !== g.id) {
+      e.preventDefault();
+      document.querySelectorAll('.group-card').forEach(c => c.classList.remove('grp-drag-over'));
+      card.classList.add('grp-drag-over');
+    } else if (dragItemId) {
+      e.preventDefault();
+    }
+  });
+  card.addEventListener('dragleave', e => {
+    if (!card.contains(e.relatedTarget)) card.classList.remove('grp-drag-over');
+  });
+  card.addEventListener('drop', e => {
+    card.classList.remove('grp-drag-over');
+    if (dragGrpId && dragGrpId !== g.id) {
+      e.preventDefault();
+      const fi = S.groups.findIndex(x => x.id === dragGrpId);
+      const ti = S.groups.findIndex(x => x.id === g.id);
+      const [m] = S.groups.splice(fi, 1);
+      S.groups.splice(ti, 0, m);
+      save(); render();
+    }
+  });
+
+  // ── Items list ──
+  const list = document.createElement('div');
+  list.className = 'grp-items';
+  list.dataset.gid = g.id;
+
+  if (g.items.length === 0) {
+    const emp = document.createElement('div');
+    emp.className = 'grp-empty';
+    emp.textContent = 'No tasks yet — add one below';
+    list.appendChild(emp);
+  } else {
+    for (const item of g.items) list.appendChild(buildItemEl(item, g.id));
+  }
+
+  attachItemDropZone(list, g.id);
+
+  // ── Add task row ──
+  const addRow = document.createElement('div');
+  addRow.className = 'add-row';
+  addRow.innerHTML = `
+    <span class="add-row-plus">+</span>
+    <input class="add-input" id="add-${g.id}" placeholder="Add a task…"
+      onkeydown="if(event.key==='Enter')commitAdd('${g.id}',this)">
+    <button class="add-submit" onclick="commitAdd('${g.id}',document.getElementById('add-${g.id}'))">Add</button>`;
+
+  card.appendChild(hdr);
+  card.appendChild(list);
+  card.appendChild(addRow);
+
+  // ── Footer (if any done) ──
+  if (done > 0) {
+    const ftr = document.createElement('div');
+    ftr.className = 'grp-footer';
+    ftr.innerHTML = `
+      <span class="grp-done-label">${done} of ${total} done</span>
+      <button class="grp-clear-btn" onclick="clearDone('${g.id}')">Clear done</button>`;
+    card.appendChild(ftr);
+  }
+
+  return card;
+}
+
+// ── BUILD ITEM ELEMENT ──
+function buildItemEl(item, gid) {
+  const el = document.createElement('div');
+  el.className = 'task-item' + (item.done ? ' is-done' : '');
+  el.draggable = true;
+  el.dataset.iid = item.id;
+  el.dataset.gid = gid;
+  el.innerHTML = `
+    <span class="item-drag-handle" title="Drag to reorder">⠿</span>
+    <div class="item-check${item.done ? ' checked' : ''}" onclick="toggleItem('${gid}','${item.id}')">${item.done ? '✓' : ''}</div>
+    <textarea class="item-text" rows="1"
+      onblur="updateText('${gid}','${item.id}',this)"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();this.blur()}"
+      oninput="autoResize(this)"
+      >${esc(item.text)}</textarea>
+    <button class="item-del" onclick="deleteItem('${gid}','${item.id}')" title="Delete task">✕</button>`;
+
+  // Auto-resize textarea on next tick
+  const ta = el.querySelector('.item-text');
+  setTimeout(() => autoResize(ta), 0);
+
+  // Item drag
+  el.addEventListener('dragstart', e => {
+    if (dragGrpId) return;
+    dragItemId  = item.id;
+    dragItemGrp = gid;
+    e.dataTransfer.effectAllowed = 'move';
+    e.stopPropagation();
+    setTimeout(() => el.classList.add('item-dragging'), 0);
+  });
+  el.addEventListener('dragend', () => {
+    el.classList.remove('item-dragging');
+    document.querySelectorAll('.task-item').forEach(i => {
+      i.classList.remove('item-drop-above', 'item-drop-below');
+    });
+    document.querySelectorAll('.grp-items').forEach(c => c.classList.remove('drop-active'));
+    dragItemId = null; dragItemGrp = null;
+  });
+
+  return el;
+}
+
+// ── ITEM DROP ZONE ──
+function attachItemDropZone(container, gid) {
+  container.addEventListener('dragover', e => {
+    if (!dragItemId) return;
+    e.preventDefault(); e.stopPropagation();
+    container.classList.add('drop-active');
+    document.querySelectorAll('.task-item').forEach(i => i.classList.remove('item-drop-above','item-drop-below'));
+    const target = e.target.closest('.task-item');
+    if (target && target.dataset.iid !== dragItemId) {
+      const rect = target.getBoundingClientRect();
+      const mid  = rect.top + rect.height / 2;
+      target.classList.add(e.clientY < mid ? 'item-drop-above' : 'item-drop-below');
+    }
+  });
+  container.addEventListener('dragleave', e => {
+    if (!container.contains(e.relatedTarget)) container.classList.remove('drop-active');
+  });
+  container.addEventListener('drop', e => {
+    if (!dragItemId) return;
+    e.preventDefault(); e.stopPropagation();
+    container.classList.remove('drop-active');
+    document.querySelectorAll('.task-item').forEach(i => i.classList.remove('item-drop-above','item-drop-below'));
+
+    const fromGrp = S.groups.find(g => g.id === dragItemGrp);
+    const toGrp   = S.groups.find(g => g.id === gid);
+    if (!fromGrp || !toGrp) return;
+
+    const fi = fromGrp.items.findIndex(i => i.id === dragItemId);
+    const [moved] = fromGrp.items.splice(fi, 1);
+
+    const target = e.target.closest('.task-item');
+    if (target && target.dataset.iid !== dragItemId) {
+      const rect = target.getBoundingClientRect();
+      let ti = toGrp.items.findIndex(i => i.id === target.dataset.iid);
+      if (e.clientY >= rect.top + rect.height / 2) ti++;
+      toGrp.items.splice(ti, 0, moved);
+    } else {
+      toGrp.items.push(moved);
+    }
+    save(); render();
+  });
+}
+
+// ── HELPERS ──
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function autoResize(ta) {
+  ta.style.height = 'auto';
+  ta.style.height = ta.scrollHeight + 'px';
+}
+
+// ── ITEM ACTIONS ──
+function toggleItem(gid, iid) {
+  const g = S.groups.find(x => x.id === gid); if (!g) return;
+  const i = g.items.find(x => x.id === iid);  if (!i) return;
+  i.done = !i.done;
+  save(); render();
+}
+
+function deleteItem(gid, iid) {
+  const g = S.groups.find(x => x.id === gid); if (!g) return;
+  g.items = g.items.filter(x => x.id !== iid);
+  save(); render();
+}
+
+function updateText(gid, iid, ta) {
+  const g = S.groups.find(x => x.id === gid); if (!g) return;
+  const i = g.items.find(x => x.id === iid);  if (!i) return;
+  const t = ta.value.trim();
+  if (!t) { deleteItem(gid, iid); return; }
+  i.text = t; save();
+}
+
+function commitAdd(gid, input) {
+  const text = input.value.trim(); if (!text) return;
+  const g = S.groups.find(x => x.id === gid); if (!g) return;
+  g.items.push({ id: uid(), text, done: false, created: Date.now() });
+  save(); render();
+  const ni = document.getElementById('add-' + gid);
+  if (ni) ni.focus();
+}
+
+function focusAdd(gid) {
+  const inp = document.getElementById('add-' + gid);
+  if (inp) { inp.focus(); inp.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
+}
+
+function clearDone(gid) {
+  const g = S.groups.find(x => x.id === gid); if (!g) return;
+  g.items = g.items.filter(i => !i.done);
+  save(); render();
+}
+
+// ── GROUP RENAME ──
+function renameGrp(input) {
+  const gid  = input.dataset.gid;
+  const name = input.value.trim();
+  const g    = S.groups.find(x => x.id === gid); if (!g) return;
+  if (!name) { input.value = g.name; return; }
+  g.name = name; save();
+}
+
+// ── COLOR PICKER ──
+function buildColorPicker(current) {
+  pickedColor = current || COLORS[0];
+  const row = document.getElementById('color-row');
+  row.innerHTML = '';
+  COLORS.forEach(c => {
+    const sw = document.createElement('div');
+    sw.className = 'c-swatch' + (c === pickedColor ? ' sel' : '');
+    sw.style.background = c;
+    sw.onclick = () => {
+      pickedColor = c;
+      document.querySelectorAll('.c-swatch').forEach(s => s.classList.remove('sel'));
+      sw.classList.add('sel');
+    };
+    row.appendChild(sw);
+  });
+}
+
+// ── GROUP MODAL ──
+function openAddGroup() {
+  editGrpId = null;
+  document.getElementById('grp-modal-title').textContent = 'Add Group';
+  document.getElementById('grp-name-input').value = '';
+  buildColorPicker(COLORS[S.groups.length % COLORS.length]);
+  document.getElementById('grp-modal-ftr').innerHTML = `
+    <button class="btn-sec" onclick="closeGrpModal()">Cancel</button>
+    <button class="btn-primary" onclick="saveGroup()">Add Group</button>`;
+  document.getElementById('grp-modal').classList.add('open');
+  setTimeout(() => document.getElementById('grp-name-input').focus(), 60);
+}
+
+function openEditGroup(gid) {
+  editGrpId = gid;
+  const g = S.groups.find(x => x.id === gid); if (!g) return;
+  document.getElementById('grp-modal-title').textContent = 'Edit Group';
+  document.getElementById('grp-name-input').value = g.name;
+  buildColorPicker(g.color);
+  document.getElementById('grp-modal-ftr').innerHTML = `
+    <button class="btn-danger" onclick="deleteGroup('${gid}')">Delete Group</button>
+    <button class="btn-sec" onclick="closeGrpModal()">Cancel</button>
+    <button class="btn-primary" onclick="saveGroup()">Save</button>`;
+  document.getElementById('grp-modal').classList.add('open');
+  setTimeout(() => document.getElementById('grp-name-input').focus(), 60);
+}
+
+function closeGrpModal() {
+  document.getElementById('grp-modal').classList.remove('open');
+  editGrpId = null;
+}
+
+function saveGroup() {
+  const name = document.getElementById('grp-name-input').value.trim();
+  if (!name) { document.getElementById('grp-name-input').focus(); return; }
+  if (editGrpId) {
+    const g = S.groups.find(x => x.id === editGrpId);
+    if (g) { g.name = name; g.color = pickedColor; }
+  } else {
+    S.groups.push({ id: uid(), name, color: pickedColor, items: [] });
+  }
+  save(); render(); closeGrpModal();
+}
+
+function deleteGroup(gid) {
+  if (!confirm('Delete this group and all its tasks?')) return;
+  S.groups = S.groups.filter(x => x.id !== gid);
+  save(); render(); closeGrpModal();
+}
+
+// Close modal on overlay click or Escape
+document.getElementById('grp-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('grp-modal')) closeGrpModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeGrpModal();
+});
+
+// ── INIT ──
+load();
+render();
+</script>
+</body>
+</html>
