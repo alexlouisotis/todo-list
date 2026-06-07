@@ -846,8 +846,6 @@ function deleteGroup(gid) {
 }
 
 // ── MODAL CLOSE ──
-document.getElementById('grp-modal').addEventListener('click', e => { if (e.target === document.getElementById('grp-modal')) closeGrpModal(); });
-document.getElementById('task-modal').addEventListener('click', e => { if (e.target === document.getElementById('task-modal')) closeTaskModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeGrpModal(); closeTaskModal(); } });
 
 // ── INIT ──
