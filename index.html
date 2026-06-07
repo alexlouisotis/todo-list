@@ -37,7 +37,8 @@ body {
 .hdr-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 2rem; gap: 1rem; }
 .hdr-left { display: flex; align-items: baseline; gap: 0.6rem; }
 .hdr-left h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
-.hdr-sub { font-size: 0.78rem; color: var(--muted); }
+.hdr-tagline { font-size: 0.78rem; color: var(--muted); }
+.hdr-sub { font-size: 0.78rem; color: var(--muted); padding-right: 0.25rem; }
 .hdr-right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
 .stat-chip { display: flex; align-items: center; gap: 5px; background: var(--bg); border-radius: 8px; padding: 5px 11px; }
 .stat-chip-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
@@ -259,9 +260,10 @@ textarea.form-input { resize: vertical; min-height: 72px; }
   <div class="hdr-inner">
     <div class="hdr-left">
       <h1>To-Do List</h1>
-      <div class="hdr-sub" id="hdr-sub">All tasks</div>
+      <span class="hdr-tagline">Your space to plan, organize, and finish.</span>
     </div>
     <div class="hdr-right">
+      <span class="hdr-sub" id="hdr-sub"></span>
       <div class="stat-chip">
         <span class="stat-chip-label">Total</span>
         <span class="stat-chip-value" id="s-total">0</span>
