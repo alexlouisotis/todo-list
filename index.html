@@ -197,6 +197,13 @@ body {
 /* ── GROUP MODAL ── */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.38); z-index: 500; align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
+
+/* ── CONFIRM MODAL ── */
+.confirm-modal { width: 320px; }
+.confirm-modal .modal-body { padding: 1.25rem 1.25rem 0.75rem; }
+.confirm-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.confirm-modal h4 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.35rem; }
+.confirm-modal p  { font-size: 0.82rem; color: var(--text2); line-height: 1.5; }
 .modal { background: white; border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.22); width: 380px; max-width: 95vw; }
 .modal-hdr { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem 0.75rem; border-bottom: 1px solid var(--border); }
 .modal-hdr h3 { font-size: 0.95rem; font-weight: 700; }
@@ -325,6 +332,21 @@ textarea.form-input { resize: vertical; min-height: 72px; }
     <div class="modal-ftr" id="grp-modal-ftr">
       <button class="btn-sec" onclick="closeGrpModal()">Cancel</button>
       <button class="btn-primary" onclick="saveGroup()">Add Group</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal confirm-modal">
+    <div class="modal-body">
+      <div class="confirm-icon">🗑️</div>
+      <h4 id="confirm-title">Delete?</h4>
+      <p id="confirm-msg">This cannot be undone.</p>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-sec" onclick="confirmCancel()">Cancel</button>
+      <button class="btn-danger" style="margin-right:0" id="confirm-ok" onclick="confirmOk()">Delete</button>
     </div>
   </div>
 </div>
@@ -667,10 +689,11 @@ function toggleItem(gid, iid) {
   i.done = !i.done; save(); render();
 }
 function deleteItem(gid, iid) {
-  if (!confirm('Delete this task?')) return;
-  if (gid === UNC) { S.uncategorized = S.uncategorized.filter(x => x.id !== iid); }
-  else { const g = S.groups.find(x => x.id === gid); if (!g) return; g.items = g.items.filter(x => x.id !== iid); }
-  save(); render();
+  showConfirm('Delete task?', 'This task will be permanently removed.', () => {
+    if (gid === UNC) { S.uncategorized = S.uncategorized.filter(x => x.id !== iid); }
+    else { const g = S.groups.find(x => x.id === gid); if (!g) return; g.items = g.items.filter(x => x.id !== iid); }
+    save(); render();
+  });
 }
 function clearDone(gid) {
   const g = S.groups.find(x => x.id === gid); if (!g) return;
@@ -840,9 +863,27 @@ function saveGroup() {
   save(); render(); closeGrpModal();
 }
 function deleteGroup(gid) {
-  if (!confirm('Delete this group and all its tasks?')) return;
-  S.groups = S.groups.filter(x => x.id !== gid);
-  save(); render(); closeGrpModal();
+  showConfirm('Delete group?', 'This group and all its tasks will be permanently removed.', () => {
+    S.groups = S.groups.filter(x => x.id !== gid);
+    save(); render(); closeGrpModal();
+  });
+}
+
+// ── CONFIRM MODAL ──
+let _confirmCallback = null;
+function showConfirm(title, msg, onConfirm) {
+  document.getElementById('confirm-title').textContent = title;
+  document.getElementById('confirm-msg').textContent   = msg;
+  _confirmCallback = onConfirm;
+  document.getElementById('confirm-modal').classList.add('open');
+}
+function confirmOk() {
+  document.getElementById('confirm-modal').classList.remove('open');
+  if (_confirmCallback) { _confirmCallback(); _confirmCallback = null; }
+}
+function confirmCancel() {
+  document.getElementById('confirm-modal').classList.remove('open');
+  _confirmCallback = null;
 }
 
 // ── MODAL CLOSE ──
