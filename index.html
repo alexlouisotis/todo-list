@@ -23,6 +23,7 @@
   --blue-l: #dbeafe;
   --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
   --r: 12px;
+  --unc: #475569;
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -47,213 +48,91 @@ body {
   padding: 0.75rem 2rem;
   gap: 1rem;
 }
-.hdr-left h1 {
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-.hdr-sub {
-  font-size: 0.73rem;
-  color: var(--muted);
-}
-.hdr-right {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  flex-shrink: 0;
-}
+.hdr-left h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
+.hdr-sub { font-size: 0.73rem; color: var(--muted); }
+.hdr-right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
 .stat-chip {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: var(--bg);
-  border-radius: 8px;
-  padding: 5px 11px;
+  display: flex; align-items: center; gap: 5px;
+  background: var(--bg); border-radius: 8px; padding: 5px 11px;
 }
-.stat-chip-label {
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--muted);
-}
-.stat-chip-value {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--text);
-}
-.stat-chip-value.done  { color: var(--green); }
-.stat-chip-value.left  { color: var(--purple); }
+.stat-chip-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.stat-chip-value { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+.stat-chip-value.done { color: var(--green); }
+.stat-chip-value.left { color: var(--purple); }
+.stat-chip-value.unc  { color: var(--unc); }
 
 .btn-primary {
-  background: var(--purple);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 7px 14px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-  transition: background 0.12s;
+  background: var(--purple); color: white; border: none; border-radius: 8px;
+  padding: 7px 14px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; gap: 4px; white-space: nowrap; transition: background 0.12s;
 }
 .btn-primary:hover { background: #6d28d9; }
 
-/* ── PAGE ── */
-.page {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 1.5rem 2rem;
-}
+/* ── PAGE & LAYOUT ── */
+.page { max-width: 1500px; margin: 0 auto; padding: 1.5rem 2rem; }
+
+.main-layout { display: flex; gap: 1rem; align-items: start; }
+.groups-col   { flex: 1; min-width: 0; }
 
 /* Progress bar */
 .progress-wrap {
-  background: white;
-  border-radius: var(--r);
-  box-shadow: var(--shadow);
-  padding: 0.7rem 1rem;
-  margin-bottom: 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  background: white; border-radius: var(--r); box-shadow: var(--shadow);
+  padding: 0.7rem 1rem; margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 1rem;
 }
-.progress-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text2);
-  white-space: nowrap;
-  min-width: 90px;
-}
-.progress-track {
-  flex: 1;
-  height: 7px;
-  background: var(--bg);
-  border-radius: 4px;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  background: var(--purple);
-  border-radius: 4px;
-  transition: width 0.35s ease;
-}
+.progress-label { font-size: 0.75rem; font-weight: 600; color: var(--text2); white-space: nowrap; min-width: 90px; }
+.progress-track { flex: 1; height: 7px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.progress-fill  { height: 100%; background: var(--purple); border-radius: 4px; transition: width 0.35s ease; }
 
 /* ── GROUPS GRID ── */
 .groups-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
   align-items: start;
 }
 
 /* ── GROUP CARD ── */
 .group-card {
-  background: var(--card);
-  border-radius: var(--r);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  transition: box-shadow 0.15s, opacity 0.15s;
+  background: var(--card); border-radius: var(--r); box-shadow: var(--shadow);
+  overflow: hidden; transition: box-shadow 0.15s, opacity 0.15s;
 }
-.group-card.grp-drag-over {
-  box-shadow: 0 0 0 2px var(--purple), 0 4px 12px rgba(0,0,0,0.1);
-}
-.group-card.grp-dragging { opacity: 0.35; }
+.group-card.grp-drag-over { box-shadow: 0 0 0 2px var(--purple), 0 4px 12px rgba(0,0,0,0.1); }
+.group-card.grp-dragging  { opacity: 0.35; }
 
 .group-header {
-  display: flex;
-  align-items: center;
-  padding: 0.6rem 0.85rem;
-  gap: 0.45rem;
-  cursor: grab;
-  user-select: none;
+  display: flex; align-items: center; padding: 0.6rem 0.85rem;
+  gap: 0.45rem; cursor: grab; user-select: none;
 }
 .group-header:active { cursor: grabbing; }
-
-.grp-drag-icon {
-  color: rgba(255,255,255,0.45);
-  font-size: 1rem;
-  flex-shrink: 0;
-  line-height: 1;
-  letter-spacing: -1px;
-}
-
+.grp-drag-icon { color: rgba(255,255,255,0.45); font-size: 1rem; flex-shrink: 0; line-height: 1; letter-spacing: -1px; }
 .grp-name {
-  flex: 1;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: white;
-  background: none;
-  border: none;
-  outline: none;
-  min-width: 0;
-  cursor: pointer;
-  font-family: inherit;
+  flex: 1; font-size: 0.88rem; font-weight: 700; color: white;
+  background: none; border: none; outline: none; min-width: 0; cursor: pointer; font-family: inherit;
 }
-.grp-name:focus {
-  background: rgba(255,255,255,0.2);
-  border-radius: 4px;
-  padding: 1px 5px;
-  cursor: text;
-}
-
+.grp-name:focus { background: rgba(255,255,255,0.2); border-radius: 4px; padding: 1px 5px; cursor: text; }
 .grp-count {
-  font-size: 0.68rem;
-  font-weight: 600;
-  background: rgba(255,255,255,0.22);
-  color: white;
-  border-radius: 10px;
-  padding: 1px 8px;
-  flex-shrink: 0;
+  font-size: 0.68rem; font-weight: 600; background: rgba(255,255,255,0.22);
+  color: white; border-radius: 10px; padding: 1px 8px; flex-shrink: 0;
 }
-
 .grp-add-btn {
-  background: rgba(255,255,255,0.18);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 3px 8px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 0.12s;
+  background: rgba(255,255,255,0.18); color: white; border: none; border-radius: 6px;
+  padding: 3px 8px; font-size: 0.7rem; font-weight: 600; cursor: pointer; flex-shrink: 0; transition: background 0.12s;
 }
 .grp-add-btn:hover { background: rgba(255,255,255,0.32); }
-
 .grp-menu-btn {
-  background: none;
-  border: none;
-  color: rgba(255,255,255,0.55);
-  font-size: 1.1rem;
-  cursor: pointer;
-  padding: 1px 3px;
-  border-radius: 4px;
-  line-height: 1;
-  flex-shrink: 0;
-  transition: color 0.12s, background 0.12s;
+  background: none; border: none; color: rgba(255,255,255,0.55); font-size: 1.1rem;
+  cursor: pointer; padding: 1px 3px; border-radius: 4px; line-height: 1; flex-shrink: 0; transition: color 0.12s, background 0.12s;
 }
 .grp-menu-btn:hover { color: white; background: rgba(255,255,255,0.18); }
 
 /* ── ITEMS LIST ── */
-.grp-items {
-  min-height: 4px;
-  padding: 4px 0;
-}
-.grp-items.drop-active {
-  background: rgba(124,58,237,0.04);
-  min-height: 44px;
-}
+.grp-items { min-height: 4px; padding: 4px 0; }
+.grp-items.drop-active { background: rgba(124,58,237,0.04); min-height: 44px; }
 
 .task-item {
-  display: flex;
-  align-items: center;
-  padding: 0.4rem 0.85rem;
-  gap: 0.55rem;
-  transition: background 0.1s;
-  position: relative;
+  display: flex; align-items: center; padding: 0.4rem 0.85rem; gap: 0.55rem;
+  transition: background 0.1s; position: relative;
 }
 .task-item:hover { background: #f8fafc; }
 .task-item.is-done { opacity: 0.55; }
@@ -262,270 +141,182 @@ body {
 .task-item.item-drop-below { border-bottom: 2px solid var(--purple); }
 
 .item-drag-handle {
-  color: var(--muted);
-  font-size: 0.9rem;
-  cursor: grab;
-  flex-shrink: 0;
-  opacity: 0;
-  transition: opacity 0.12s;
-  line-height: 1;
-  letter-spacing: -1px;
+  color: var(--muted); font-size: 0.9rem; cursor: grab; flex-shrink: 0;
+  opacity: 0; transition: opacity 0.12s; line-height: 1; letter-spacing: -1px;
 }
 .task-item:hover .item-drag-handle { opacity: 1; }
 
 .item-check {
-  width: 17px;
-  height: 17px;
-  border-radius: 5px;
-  border: 2px solid var(--border);
-  flex-shrink: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color 0.15s, background 0.15s;
-  font-size: 0.6rem;
-  font-weight: 700;
-  color: white;
+  width: 17px; height: 17px; border-radius: 5px; border: 2px solid var(--border);
+  flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.15s, background 0.15s; font-size: 0.6rem; font-weight: 700; color: white;
 }
-.item-check.checked {
-  background: var(--green);
-  border-color: var(--green);
-}
+.item-check.checked { background: var(--green); border-color: var(--green); }
 .item-check:hover:not(.checked) { border-color: var(--purple); }
 
 .item-text {
-  flex: 1;
-  font-size: 0.82rem;
-  color: var(--text);
-  outline: none;
-  background: none;
-  border: none;
-  padding: 1px 3px;
-  border-radius: 4px;
-  cursor: text;
-  min-width: 0;
-  font-family: inherit;
-  resize: none;
-  overflow: hidden;
-  line-height: 1.4;
-  word-break: break-word;
+  flex: 1; font-size: 0.82rem; color: var(--text); outline: none; background: none; border: none;
+  padding: 1px 3px; border-radius: 4px; cursor: text; min-width: 0; font-family: inherit;
+  resize: none; overflow: hidden; line-height: 1.4; word-break: break-word;
 }
 .item-text:focus { background: var(--purple-l); color: var(--purple); }
-.task-item.is-done .item-text {
-  text-decoration: line-through;
-  color: var(--muted);
-}
+.task-item.is-done .item-text { text-decoration: line-through; color: var(--muted); }
 
 .item-del {
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-size: 0.8rem;
-  cursor: pointer;
-  padding: 2px 3px;
-  border-radius: 4px;
-  flex-shrink: 0;
-  opacity: 0;
-  transition: opacity 0.12s, color 0.12s;
-  line-height: 1;
+  background: none; border: none; color: var(--muted); font-size: 0.8rem; cursor: pointer;
+  padding: 2px 3px; border-radius: 4px; flex-shrink: 0;
+  opacity: 0; transition: opacity 0.12s, color 0.12s; line-height: 1;
 }
 .task-item:hover .item-del { opacity: 1; }
 .item-del:hover { color: var(--red); }
 
 /* ── ADD TASK ROW ── */
 .add-row {
-  display: flex;
-  align-items: center;
-  padding: 0.35rem 0.85rem 0.55rem;
-  gap: 0.55rem;
-  border-top: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0.35rem 0.85rem 0.55rem;
+  gap: 0.55rem; border-top: 1px solid var(--border);
 }
-.add-row-plus {
-  color: var(--muted);
-  font-size: 0.95rem;
-  flex-shrink: 0;
-}
+.add-row-plus { color: var(--muted); font-size: 0.95rem; flex-shrink: 0; }
 .add-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 0.82rem;
-  color: var(--text);
-  background: none;
-  padding: 2px 3px;
-  font-family: inherit;
-  border-radius: 4px;
+  flex: 1; border: none; outline: none; font-size: 0.82rem; color: var(--text);
+  background: none; padding: 2px 3px; font-family: inherit; border-radius: 4px;
 }
 .add-input::placeholder { color: var(--muted); }
 .add-input:focus { background: var(--purple-l); color: var(--purple); }
 .add-submit {
-  background: var(--purple);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 3px 9px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 0.12s;
-  opacity: 0;
-  transition: opacity 0.12s, background 0.12s;
+  background: var(--purple); color: white; border: none; border-radius: 6px;
+  padding: 3px 9px; font-size: 0.7rem; font-weight: 600; cursor: pointer; flex-shrink: 0;
+  opacity: 0; transition: opacity 0.12s, background 0.12s;
 }
 .add-row:focus-within .add-submit { opacity: 1; }
 .add-submit:hover { background: #6d28d9; }
 
 /* ── GROUP FOOTER ── */
 .grp-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.45rem 0.85rem 0.6rem;
-  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.45rem 0.85rem 0.6rem; border-top: 1px solid var(--border);
 }
-.grp-done-label {
-  font-size: 0.72rem;
-  color: var(--muted);
-}
+.grp-done-label { font-size: 0.72rem; color: var(--muted); }
 .grp-clear-btn {
-  font-size: 0.72rem;
-  color: var(--muted);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 2px 7px;
-  border-radius: 5px;
-  transition: color 0.12s, background 0.12s;
+  font-size: 0.72rem; color: var(--muted); background: none; border: none;
+  cursor: pointer; padding: 2px 7px; border-radius: 5px; transition: color 0.12s, background 0.12s;
 }
 .grp-clear-btn:hover { color: var(--red); background: var(--red-l); }
 
-/* ── GROUP EMPTY STATE ── */
-.grp-empty {
-  text-align: center;
-  padding: 1rem 0.85rem 0.6rem;
-  color: var(--muted);
-  font-size: 0.78rem;
-}
+.grp-empty { text-align: center; padding: 1rem 0.85rem 0.6rem; color: var(--muted); font-size: 0.78rem; }
 
 /* ── PAGE EMPTY STATE ── */
-.empty-page {
-  text-align: center;
-  padding: 5rem 2rem;
-}
+.empty-page { text-align: center; padding: 5rem 2rem; }
 .empty-icon { font-size: 3rem; margin-bottom: 0.75rem; }
 .empty-page h3 { font-size: 1.1rem; font-weight: 600; color: var(--text2); margin-bottom: 0.35rem; }
 .empty-page p  { font-size: 0.82rem; color: var(--muted); }
 
+/* ── UNCATEGORIZED PANEL ── */
+.unc-panel {
+  width: 272px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 80px;
+  background: var(--card);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+.unc-panel.unc-drag-over {
+  box-shadow: 0 0 0 2px var(--unc), 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.unc-header {
+  display: flex; align-items: center; padding: 0.6rem 0.85rem;
+  gap: 0.5rem; background: var(--unc); user-select: none;
+}
+.unc-title { flex: 1; font-size: 0.88rem; font-weight: 700; color: white; }
+.unc-badge {
+  font-size: 0.68rem; font-weight: 600; background: rgba(255,255,255,0.22);
+  color: white; border-radius: 10px; padding: 1px 8px; flex-shrink: 0;
+}
+
+.unc-capture {
+  padding: 0.65rem 0.85rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  background: #f8fafc;
+}
+.unc-capture-label {
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--muted); margin-bottom: 5px; display: block;
+}
+.unc-capture-input {
+  width: 100%; border: 1px solid var(--border); border-radius: 8px;
+  padding: 6px 9px; font-size: 0.82rem; font-family: inherit; color: var(--text);
+  outline: none; background: white; transition: border-color 0.15s, box-shadow 0.15s;
+}
+.unc-capture-input::placeholder { color: var(--muted); }
+.unc-capture-input:focus {
+  border-color: var(--unc);
+  box-shadow: 0 0 0 3px rgba(71,85,105,0.12);
+}
+
+.unc-items {
+  min-height: 4px;
+  padding: 4px 0;
+  max-height: calc(100vh - 260px);
+  overflow-y: auto;
+}
+.unc-items.drop-active { background: rgba(71,85,105,0.04); min-height: 44px; }
+
+.unc-item-drop-above { border-top: 2px solid var(--unc) !important; }
+.unc-item-drop-below { border-bottom: 2px solid var(--unc) !important; }
+
+.unc-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.45rem 0.85rem 0.6rem; border-top: 1px solid var(--border);
+}
+.unc-done-label { font-size: 0.72rem; color: var(--muted); }
+
+.unc-empty {
+  text-align: center; padding: 1.25rem 0.85rem 0.9rem;
+  color: var(--muted); font-size: 0.78rem; line-height: 1.6;
+}
+
 /* ── MODAL ── */
 .modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.38);
-  z-index: 500;
-  align-items: center;
-  justify-content: center;
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.38); z-index: 500; align-items: center; justify-content: center;
 }
 .modal-overlay.open { display: flex; }
-.modal {
-  background: white;
-  border-radius: 14px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.22);
-  width: 380px;
-  max-width: 95vw;
-}
+.modal { background: white; border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.22); width: 380px; max-width: 95vw; }
 .modal-hdr {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem 0.75rem;
-  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.25rem 0.75rem; border-bottom: 1px solid var(--border);
 }
 .modal-hdr h3 { font-size: 0.95rem; font-weight: 700; }
-.modal-x {
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-size: 1.1rem;
-  cursor: pointer;
-  padding: 2px;
-  line-height: 1;
-}
+.modal-x { background: none; border: none; color: var(--muted); font-size: 1.1rem; cursor: pointer; padding: 2px; line-height: 1; }
 .modal-x:hover { color: var(--text); }
 .modal-body { padding: 1.25rem; }
 .form-label {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--text2);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.4rem;
+  display: block; font-size: 0.72rem; font-weight: 700; color: var(--text2);
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem;
 }
 .form-input {
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 10px;
-  font-size: 0.85rem;
-  font-family: inherit;
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  margin-bottom: 1rem;
+  width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px;
+  font-size: 0.85rem; font-family: inherit; color: var(--text); outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s; margin-bottom: 1rem;
 }
-.form-input:focus {
-  border-color: var(--purple);
-  box-shadow: 0 0 0 3px var(--purple-l);
-}
-.color-row {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 0.25rem;
-}
+.form-input:focus { border-color: var(--purple); box-shadow: 0 0 0 3px var(--purple-l); }
+.color-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0.25rem; }
 .c-swatch {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 3px solid transparent;
-  transition: transform 0.1s, border-color 0.1s;
+  width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+  border: 3px solid transparent; transition: transform 0.1s, border-color 0.1s;
 }
 .c-swatch:hover { transform: scale(1.15); }
 .c-swatch.sel { border-color: #1e293b; }
 .modal-ftr {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  padding: 0.75rem 1.25rem;
-  border-top: 1px solid var(--border);
+  display: flex; gap: 8px; justify-content: flex-end;
+  padding: 0.75rem 1.25rem; border-top: 1px solid var(--border);
 }
-.btn-sec {
-  background: var(--bg);
-  color: var(--text2);
-  border: none;
-  border-radius: 8px;
-  padding: 7px 14px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.12s;
-}
+.btn-sec { background: var(--bg); color: var(--text2); border: none; border-radius: 8px; padding: 7px 14px; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: background 0.12s; }
 .btn-sec:hover { background: var(--border); }
-.btn-danger {
-  background: var(--red-l);
-  color: var(--red);
-  border: none;
-  border-radius: 8px;
-  padding: 7px 14px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.12s, color 0.12s;
-  margin-right: auto;
-}
+.btn-danger { background: var(--red-l); color: var(--red); border: none; border-radius: 8px; padding: 7px 14px; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: background 0.12s, color 0.12s; margin-right: auto; }
 .btn-danger:hover { background: var(--red); color: white; }
 </style>
 </head>
@@ -551,6 +342,10 @@ body {
         <span class="stat-chip-label">Left</span>
         <span class="stat-chip-value left" id="s-left">0</span>
       </div>
+      <div class="stat-chip">
+        <span class="stat-chip-label">Inbox</span>
+        <span class="stat-chip-value unc" id="s-unc">0</span>
+      </div>
       <button class="btn-primary" onclick="openAddGroup()">+ Add Group</button>
     </div>
   </div>
@@ -558,17 +353,38 @@ body {
 
 <!-- MAIN -->
 <main class="page">
-  <div class="progress-wrap" id="progress-wrap" style="display:none">
-    <span class="progress-label" id="progress-label">0% complete</span>
-    <div class="progress-track">
-      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  <div class="main-layout">
+
+    <!-- LEFT: groups column -->
+    <div class="groups-col">
+      <div class="progress-wrap" id="progress-wrap" style="display:none">
+        <span class="progress-label" id="progress-label">0% complete</span>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="groups-grid" id="groups-grid"></div>
+      <div class="empty-page" id="empty-page" style="display:none">
+        <div class="empty-icon">☑️</div>
+        <h3>No groups yet</h3>
+        <p>Click "+ Add Group" to create your first task list.<br>Jot things down in Uncategorized on the right.</p>
+      </div>
     </div>
-  </div>
-  <div class="groups-grid" id="groups-grid"></div>
-  <div class="empty-page" id="empty-page" style="display:none">
-    <div class="empty-icon">☑️</div>
-    <h3>No groups yet</h3>
-    <p>Click "+ Add Group" to create your first task list.</p>
+
+    <!-- RIGHT: Uncategorized panel -->
+    <div class="unc-panel" id="unc-panel">
+      <div class="unc-header">
+        <span class="unc-title">Uncategorized</span>
+        <span class="unc-badge" id="unc-badge">0</span>
+      </div>
+      <div class="unc-capture">
+        <span class="unc-capture-label">Quick capture</span>
+        <input class="unc-capture-input" id="unc-input" placeholder="Jot something down…"
+          onkeydown="if(event.key==='Enter')commitAddUnc(this)">
+      </div>
+      <div class="unc-items" id="unc-items"></div>
+    </div>
+
   </div>
 </main>
 
@@ -595,30 +411,39 @@ body {
 
 <script>
 // ── CONSTANTS ──
-const KEY = 'todoList_v1';
+const KEY   = 'todoList_v1';
+const UNC   = '_uncategorized';   // sentinel gid for Uncategorized
 const COLORS = ['#7c3aed','#059669','#dc2626','#3b82f6','#f59e0b','#0d9488','#db2777','#64748b'];
 
 // ── STATE ──
-let S = { groups: [] };
-let editGrpId  = null;
+let S = { groups: [], uncategorized: [] };
+let editGrpId   = null;
 let pickedColor = COLORS[0];
 let dragGrpId   = null;
 let dragItemId  = null;
-let dragItemGrp = null;
+let dragItemGrp = null;  // gid or UNC
 
 // ── PERSISTENCE ──
 function load() {
   try { const r = localStorage.getItem(KEY); if (r) S = JSON.parse(r); } catch(e) {}
-  if (!Array.isArray(S.groups)) S.groups = [];
+  if (!Array.isArray(S.groups))        S.groups        = [];
+  if (!Array.isArray(S.uncategorized)) S.uncategorized = [];
 }
 function save() { localStorage.setItem(KEY, JSON.stringify(S)); }
 function uid()  { return Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
+
+// ── ITEM LIST ACCESSOR (handles UNC sentinel) ──
+function getList(gid) {
+  if (gid === UNC) return S.uncategorized;
+  return S.groups.find(g => g.id === gid)?.items ?? [];
+}
 
 // ── STATS ──
 function stats() {
   let total = 0, done = 0;
   for (const g of S.groups) { total += g.items.length; done += g.items.filter(i=>i.done).length; }
-  return { total, done, left: total - done };
+  const unc = S.uncategorized.length;
+  return { total, done, left: total - done, unc };
 }
 
 // ── RENDER ──
@@ -627,26 +452,65 @@ function render() {
   document.getElementById('s-total').textContent = st.total;
   document.getElementById('s-done').textContent  = st.done;
   document.getElementById('s-left').textContent  = st.left;
+  document.getElementById('s-unc').textContent   = st.unc;
 
   const groups = S.groups.length;
   document.getElementById('hdr-sub').textContent =
     groups === 0 ? 'No groups yet' :
     `${groups} group${groups !== 1 ? 's' : ''} · ${st.total} task${st.total !== 1 ? 's' : ''}`;
 
-  // Progress
+  // Progress (excludes uncategorized — they're not "committed" yet)
   const pw = document.getElementById('progress-wrap');
   pw.style.display = st.total > 0 ? '' : 'none';
   const pct = st.total > 0 ? Math.round((st.done / st.total) * 100) : 0;
   document.getElementById('progress-fill').style.width = pct + '%';
   document.getElementById('progress-label').textContent = pct + '% complete';
 
-  // Empty
   document.getElementById('empty-page').style.display = groups === 0 ? '' : 'none';
 
   // Groups
   const grid = document.getElementById('groups-grid');
   grid.innerHTML = '';
   for (const g of S.groups) grid.appendChild(buildGroupCard(g));
+
+  // Uncategorized panel
+  renderUnc();
+}
+
+// ── RENDER UNCATEGORIZED ──
+function renderUnc() {
+  const items = S.uncategorized;
+  document.getElementById('unc-badge').textContent = items.length;
+
+  const container = document.getElementById('unc-items');
+  container.innerHTML = '';
+
+  if (items.length === 0) {
+    const emp = document.createElement('div');
+    emp.className = 'unc-empty';
+    emp.textContent = 'Type above to capture a task.\nDrag it to a group when ready.';
+    container.appendChild(emp);
+  } else {
+    for (const item of items) container.appendChild(buildItemEl(item, UNC));
+  }
+
+  // Reattach drop zone
+  attachItemDropZone(container, UNC, true);
+
+  // Footer
+  const panel = document.getElementById('unc-panel');
+  const existingFtr = panel.querySelector('.unc-footer');
+  if (existingFtr) existingFtr.remove();
+
+  const done = items.filter(i => i.done).length;
+  if (done > 0) {
+    const ftr = document.createElement('div');
+    ftr.className = 'unc-footer';
+    ftr.innerHTML = `
+      <span class="unc-done-label">${done} of ${items.length} done</span>
+      <button class="grp-clear-btn" onclick="clearDoneUnc()">Clear done</button>`;
+    panel.appendChild(ftr);
+  }
 }
 
 // ── BUILD GROUP CARD ──
@@ -658,7 +522,6 @@ function buildGroupCard(g) {
   card.className = 'group-card';
   card.dataset.gid = g.id;
 
-  // ── Header ──
   const hdr = document.createElement('div');
   hdr.className = 'group-header';
   hdr.style.background = g.color;
@@ -708,7 +571,6 @@ function buildGroupCard(g) {
     }
   });
 
-  // ── Items list ──
   const list = document.createElement('div');
   list.className = 'grp-items';
   list.dataset.gid = g.id;
@@ -722,9 +584,8 @@ function buildGroupCard(g) {
     for (const item of g.items) list.appendChild(buildItemEl(item, g.id));
   }
 
-  attachItemDropZone(list, g.id);
+  attachItemDropZone(list, g.id, false);
 
-  // ── Add task row ──
   const addRow = document.createElement('div');
   addRow.className = 'add-row';
   addRow.innerHTML = `
@@ -737,7 +598,6 @@ function buildGroupCard(g) {
   card.appendChild(list);
   card.appendChild(addRow);
 
-  // ── Footer (if any done) ──
   if (done > 0) {
     const ftr = document.createElement('div');
     ftr.className = 'grp-footer';
@@ -752,26 +612,25 @@ function buildGroupCard(g) {
 
 // ── BUILD ITEM ELEMENT ──
 function buildItemEl(item, gid) {
+  const isUnc = gid === UNC;
   const el = document.createElement('div');
   el.className = 'task-item' + (item.done ? ' is-done' : '');
   el.draggable = true;
   el.dataset.iid = item.id;
   el.dataset.gid = gid;
   el.innerHTML = `
-    <span class="item-drag-handle" title="Drag to reorder">⠿</span>
+    <span class="item-drag-handle" title="Drag to a group">⠿</span>
     <div class="item-check${item.done ? ' checked' : ''}" onclick="toggleItem('${gid}','${item.id}')">${item.done ? '✓' : ''}</div>
     <textarea class="item-text" rows="1"
       onblur="updateText('${gid}','${item.id}',this)"
       onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();this.blur()}"
       oninput="autoResize(this)"
       >${esc(item.text)}</textarea>
-    <button class="item-del" onclick="deleteItem('${gid}','${item.id}')" title="Delete task">✕</button>`;
+    <button class="item-del" onclick="deleteItem('${gid}','${item.id}')" title="Delete">✕</button>`;
 
-  // Auto-resize textarea on next tick
   const ta = el.querySelector('.item-text');
   setTimeout(() => autoResize(ta), 0);
 
-  // Item drag
   el.addEventListener('dragstart', e => {
     if (dragGrpId) return;
     dragItemId  = item.id;
@@ -783,9 +642,9 @@ function buildItemEl(item, gid) {
   el.addEventListener('dragend', () => {
     el.classList.remove('item-dragging');
     document.querySelectorAll('.task-item').forEach(i => {
-      i.classList.remove('item-drop-above', 'item-drop-below');
+      i.classList.remove('item-drop-above','item-drop-below','unc-item-drop-above','unc-item-drop-below');
     });
-    document.querySelectorAll('.grp-items').forEach(c => c.classList.remove('drop-active'));
+    document.querySelectorAll('.grp-items, .unc-items').forEach(c => c.classList.remove('drop-active'));
     dragItemId = null; dragItemGrp = null;
   });
 
@@ -793,17 +652,20 @@ function buildItemEl(item, gid) {
 }
 
 // ── ITEM DROP ZONE ──
-function attachItemDropZone(container, gid) {
+function attachItemDropZone(container, gid, isUnc) {
+  const aboveClass = isUnc ? 'unc-item-drop-above' : 'item-drop-above';
+  const belowClass = isUnc ? 'unc-item-drop-below' : 'item-drop-below';
+
   container.addEventListener('dragover', e => {
     if (!dragItemId) return;
     e.preventDefault(); e.stopPropagation();
     container.classList.add('drop-active');
-    document.querySelectorAll('.task-item').forEach(i => i.classList.remove('item-drop-above','item-drop-below'));
+    document.querySelectorAll('.task-item').forEach(i =>
+      i.classList.remove('item-drop-above','item-drop-below','unc-item-drop-above','unc-item-drop-below'));
     const target = e.target.closest('.task-item');
     if (target && target.dataset.iid !== dragItemId) {
       const rect = target.getBoundingClientRect();
-      const mid  = rect.top + rect.height / 2;
-      target.classList.add(e.clientY < mid ? 'item-drop-above' : 'item-drop-below');
+      target.classList.add(e.clientY < rect.top + rect.height / 2 ? aboveClass : belowClass);
     }
   });
   container.addEventListener('dragleave', e => {
@@ -813,27 +675,34 @@ function attachItemDropZone(container, gid) {
     if (!dragItemId) return;
     e.preventDefault(); e.stopPropagation();
     container.classList.remove('drop-active');
-    document.querySelectorAll('.task-item').forEach(i => i.classList.remove('item-drop-above','item-drop-below'));
+    document.querySelectorAll('.task-item').forEach(i =>
+      i.classList.remove('item-drop-above','item-drop-below','unc-item-drop-above','unc-item-drop-below'));
 
-    const fromGrp = S.groups.find(g => g.id === dragItemGrp);
-    const toGrp   = S.groups.find(g => g.id === gid);
-    if (!fromGrp || !toGrp) return;
+    const fromList = getList(dragItemGrp);
+    const toList   = getList(gid);
 
-    const fi = fromGrp.items.findIndex(i => i.id === dragItemId);
-    const [moved] = fromGrp.items.splice(fi, 1);
+    const fi = fromList.findIndex(i => i.id === dragItemId);
+    if (fi === -1) return;
+    const [moved] = fromList.splice(fi, 1);
 
     const target = e.target.closest('.task-item');
     if (target && target.dataset.iid !== dragItemId) {
       const rect = target.getBoundingClientRect();
-      let ti = toGrp.items.findIndex(i => i.id === target.dataset.iid);
+      let ti = toList.findIndex(i => i.id === target.dataset.iid);
       if (e.clientY >= rect.top + rect.height / 2) ti++;
-      toGrp.items.splice(ti, 0, moved);
+      toList.splice(ti, 0, moved);
     } else {
-      toGrp.items.push(moved);
+      toList.push(moved);
     }
+
     save(); render();
   });
 }
+
+// ── UNCATEGORIZED panel also accepts group-card drops on its header/panel ──
+document.getElementById('unc-panel').addEventListener('dragover', e => {
+  if (dragItemId) e.preventDefault();
+});
 
 // ── HELPERS ──
 function esc(s) {
@@ -841,29 +710,29 @@ function esc(s) {
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
-
-function autoResize(ta) {
-  ta.style.height = 'auto';
-  ta.style.height = ta.scrollHeight + 'px';
-}
+function autoResize(ta) { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; }
 
 // ── ITEM ACTIONS ──
 function toggleItem(gid, iid) {
-  const g = S.groups.find(x => x.id === gid); if (!g) return;
-  const i = g.items.find(x => x.id === iid);  if (!i) return;
+  const list = getList(gid);
+  const i = list.find(x => x.id === iid); if (!i) return;
   i.done = !i.done;
   save(); render();
 }
 
 function deleteItem(gid, iid) {
-  const g = S.groups.find(x => x.id === gid); if (!g) return;
-  g.items = g.items.filter(x => x.id !== iid);
+  if (gid === UNC) {
+    S.uncategorized = S.uncategorized.filter(x => x.id !== iid);
+  } else {
+    const g = S.groups.find(x => x.id === gid); if (!g) return;
+    g.items = g.items.filter(x => x.id !== iid);
+  }
   save(); render();
 }
 
 function updateText(gid, iid, ta) {
-  const g = S.groups.find(x => x.id === gid); if (!g) return;
-  const i = g.items.find(x => x.id === iid);  if (!i) return;
+  const list = getList(gid);
+  const i = list.find(x => x.id === iid); if (!i) return;
   const t = ta.value.trim();
   if (!t) { deleteItem(gid, iid); return; }
   i.text = t; save();
@@ -878,6 +747,14 @@ function commitAdd(gid, input) {
   if (ni) ni.focus();
 }
 
+function commitAddUnc(input) {
+  const text = input.value.trim(); if (!text) return;
+  S.uncategorized.push({ id: uid(), text, done: false, created: Date.now() });
+  input.value = '';
+  save(); render();
+  document.getElementById('unc-input').focus();
+}
+
 function focusAdd(gid) {
   const inp = document.getElementById('add-' + gid);
   if (inp) { inp.focus(); inp.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
@@ -889,11 +766,16 @@ function clearDone(gid) {
   save(); render();
 }
 
+function clearDoneUnc() {
+  S.uncategorized = S.uncategorized.filter(i => !i.done);
+  save(); render();
+}
+
 // ── GROUP RENAME ──
 function renameGrp(input) {
-  const gid  = input.dataset.gid;
+  const gid = input.dataset.gid;
   const name = input.value.trim();
-  const g    = S.groups.find(x => x.id === gid); if (!g) return;
+  const g = S.groups.find(x => x.id === gid); if (!g) return;
   if (!name) { input.value = g.name; return; }
   g.name = name; save();
 }
@@ -966,7 +848,6 @@ function deleteGroup(gid) {
   save(); render(); closeGrpModal();
 }
 
-// Close modal on overlay click or Escape
 document.getElementById('grp-modal').addEventListener('click', e => {
   if (e.target === document.getElementById('grp-modal')) closeGrpModal();
 });
