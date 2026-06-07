@@ -263,7 +263,6 @@ textarea.form-input { resize: vertical; min-height: 72px; }
       <span class="hdr-tagline">Your space to plan, organize, and finish.</span>
     </div>
     <div class="hdr-right">
-      <span class="hdr-sub" id="hdr-sub"></span>
       <div class="stat-chip">
         <span class="stat-chip-label">Total</span>
         <span class="stat-chip-value" id="s-total">0</span>
@@ -441,11 +440,6 @@ function render() {
   document.getElementById('s-done').textContent  = st.done;
   document.getElementById('s-left').textContent  = st.left;
   document.getElementById('s-unc').textContent   = st.unc;
-
-  const groups = S.groups.length;
-  document.getElementById('hdr-sub').textContent =
-    groups === 0 ? 'No groups yet' :
-    `${groups} group${groups!==1?'s':''} · ${st.total} task${st.total!==1?'s':''}`;
 
   const pw  = document.getElementById('progress-wrap');
   pw.style.display = st.total > 0 ? '' : 'none';
