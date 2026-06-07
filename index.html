@@ -21,46 +21,29 @@
   --red-l: #fee2e2;
   --blue: #3b82f6;
   --blue-l: #dbeafe;
+  --amber: #d97706;
+  --amber-l: #fef3c7;
   --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
   --r: 12px;
   --unc: #475569;
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 13px;
-  line-height: 1.5;
+  background: var(--bg); color: var(--text); font-size: 13px; line-height: 1.5;
 }
 
 /* ── HEADER ── */
-.site-header {
-  background: white;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-}
-.hdr-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 2rem;
-  gap: 1rem;
-}
+.site-header { background: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.hdr-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 2rem; gap: 1rem; }
 .hdr-left h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
 .hdr-sub { font-size: 0.73rem; color: var(--muted); }
 .hdr-right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
-.stat-chip {
-  display: flex; align-items: center; gap: 5px;
-  background: var(--bg); border-radius: 8px; padding: 5px 11px;
-}
+.stat-chip { display: flex; align-items: center; gap: 5px; background: var(--bg); border-radius: 8px; padding: 5px 11px; }
 .stat-chip-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
 .stat-chip-value { font-size: 0.82rem; font-weight: 700; color: var(--text); }
 .stat-chip-value.done { color: var(--green); }
 .stat-chip-value.left { color: var(--purple); }
 .stat-chip-value.unc  { color: var(--unc); }
-
 .btn-primary {
   background: var(--purple); color: white; border: none; border-radius: 8px;
   padding: 7px 14px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
@@ -70,73 +53,45 @@ body {
 
 /* ── PAGE & LAYOUT ── */
 .page { max-width: 1500px; margin: 0 auto; padding: 1.5rem 2rem; }
-
 .main-layout { display: flex; gap: 1rem; align-items: start; }
 .groups-col   { flex: 1; min-width: 0; }
 
 /* Progress bar */
-.progress-wrap {
-  background: white; border-radius: var(--r); box-shadow: var(--shadow);
-  padding: 0.7rem 1rem; margin-bottom: 1.25rem;
-  display: flex; align-items: center; gap: 1rem;
-}
+.progress-wrap { background: white; border-radius: var(--r); box-shadow: var(--shadow); padding: 0.7rem 1rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 1rem; }
 .progress-label { font-size: 0.75rem; font-weight: 600; color: var(--text2); white-space: nowrap; min-width: 90px; }
 .progress-track { flex: 1; height: 7px; background: var(--bg); border-radius: 4px; overflow: hidden; }
 .progress-fill  { height: 100%; background: var(--purple); border-radius: 4px; transition: width 0.35s ease; }
 
 /* ── GROUPS GRID ── */
-.groups-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
-  align-items: start;
-}
+.groups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; align-items: start; }
 
 /* ── GROUP CARD ── */
-.group-card {
-  background: var(--card); border-radius: var(--r); box-shadow: var(--shadow);
-  overflow: hidden; transition: box-shadow 0.15s, opacity 0.15s;
-}
+.group-card { background: var(--card); border-radius: var(--r); box-shadow: var(--shadow); overflow: hidden; transition: box-shadow 0.15s, opacity 0.15s; }
 .group-card.grp-drag-over { box-shadow: 0 0 0 2px var(--purple), 0 4px 12px rgba(0,0,0,0.1); }
 .group-card.grp-dragging  { opacity: 0.35; }
-
-.group-header {
-  display: flex; align-items: center; padding: 0.6rem 0.85rem;
-  gap: 0.45rem; cursor: grab; user-select: none;
-}
+.group-header { display: flex; align-items: center; padding: 0.6rem 0.85rem; gap: 0.45rem; cursor: grab; user-select: none; }
 .group-header:active { cursor: grabbing; }
 .grp-drag-icon { color: rgba(255,255,255,0.45); font-size: 1rem; flex-shrink: 0; line-height: 1; letter-spacing: -1px; }
-.grp-name {
-  flex: 1; font-size: 0.88rem; font-weight: 700; color: white;
-  background: none; border: none; outline: none; min-width: 0; cursor: pointer; font-family: inherit;
-}
+.grp-name { flex: 1; font-size: 0.88rem; font-weight: 700; color: white; background: none; border: none; outline: none; min-width: 0; cursor: pointer; font-family: inherit; }
 .grp-name:focus { background: rgba(255,255,255,0.2); border-radius: 4px; padding: 1px 5px; cursor: text; }
-.grp-count {
-  font-size: 0.68rem; font-weight: 600; background: rgba(255,255,255,0.22);
-  color: white; border-radius: 10px; padding: 1px 8px; flex-shrink: 0;
-}
-.grp-add-btn {
-  background: rgba(255,255,255,0.18); color: white; border: none; border-radius: 6px;
-  padding: 3px 8px; font-size: 0.7rem; font-weight: 600; cursor: pointer; flex-shrink: 0; transition: background 0.12s;
-}
+.grp-count { font-size: 0.68rem; font-weight: 600; background: rgba(255,255,255,0.22); color: white; border-radius: 10px; padding: 1px 8px; flex-shrink: 0; }
+.grp-add-btn { background: rgba(255,255,255,0.18); color: white; border: none; border-radius: 6px; padding: 3px 8px; font-size: 0.7rem; font-weight: 600; cursor: pointer; flex-shrink: 0; transition: background 0.12s; }
 .grp-add-btn:hover { background: rgba(255,255,255,0.32); }
-.grp-menu-btn {
-  background: none; border: none; color: rgba(255,255,255,0.55); font-size: 1.1rem;
-  cursor: pointer; padding: 1px 3px; border-radius: 4px; line-height: 1; flex-shrink: 0; transition: color 0.12s, background 0.12s;
-}
+.grp-menu-btn { background: none; border: none; color: rgba(255,255,255,0.55); font-size: 1.1rem; cursor: pointer; padding: 1px 3px; border-radius: 4px; line-height: 1; flex-shrink: 0; transition: color 0.12s, background 0.12s; }
 .grp-menu-btn:hover { color: white; background: rgba(255,255,255,0.18); }
 
 /* ── ITEMS LIST ── */
 .grp-items { min-height: 4px; padding: 4px 0; }
 .grp-items.drop-active { background: rgba(124,58,237,0.04); min-height: 44px; }
 
+/* ── TASK ITEM ROW ── */
 .task-item {
-  display: flex; align-items: center; padding: 0.4rem 0.85rem; gap: 0.55rem;
-  transition: background 0.1s; position: relative;
+  display: flex; align-items: center; padding: 0.42rem 0.85rem; gap: 0.55rem;
+  cursor: pointer; transition: background 0.1s; position: relative;
 }
-.task-item:hover { background: #f8fafc; }
-.task-item.is-done { opacity: 0.55; }
-.task-item.item-dragging { opacity: 0.25; }
+.task-item:hover { background: #f4f6fb; }
+.task-item.is-done { opacity: 0.5; }
+.task-item.item-dragging { opacity: 0.25; cursor: grabbing; }
 .task-item.item-drop-above { border-top: 2px solid var(--purple); }
 .task-item.item-drop-below { border-bottom: 2px solid var(--purple); }
 
@@ -154,13 +109,32 @@ body {
 .item-check.checked { background: var(--green); border-color: var(--green); }
 .item-check:hover:not(.checked) { border-color: var(--purple); }
 
-.item-text {
-  flex: 1; font-size: 0.82rem; color: var(--text); outline: none; background: none; border: none;
-  padding: 1px 3px; border-radius: 4px; cursor: text; min-width: 0; font-family: inherit;
-  resize: none; overflow: hidden; line-height: 1.4; word-break: break-word;
+.item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.item-title {
+  font-size: 0.82rem; color: var(--text); white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; line-height: 1.4;
 }
-.item-text:focus { background: var(--purple-l); color: var(--purple); }
-.task-item.is-done .item-text { text-decoration: line-through; color: var(--muted); }
+.task-item.is-done .item-title { text-decoration: line-through; color: var(--muted); }
+.item-meta { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+
+/* Urgency pill */
+.urg-pill {
+  font-size: 0.58rem; font-weight: 700; border-radius: 9px; padding: 1px 6px;
+  text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; flex-shrink: 0;
+}
+.urg-pill.low    { background: var(--green-l); color: var(--green); }
+.urg-pill.medium { background: var(--blue-l);  color: var(--blue); }
+.urg-pill.high   { background: var(--amber-l); color: var(--amber); }
+.urg-pill.urgent { background: var(--red-l);   color: var(--red); }
+
+/* Due date chip */
+.due-chip {
+  font-size: 0.62rem; font-weight: 600; border-radius: 6px; padding: 1px 6px; white-space: nowrap;
+}
+.due-chip.future   { background: #f1f5f9; color: var(--muted); }
+.due-chip.soon     { background: var(--amber-l); color: var(--amber); }
+.due-chip.today    { background: var(--amber-l); color: var(--amber); }
+.due-chip.overdue  { background: var(--red-l); color: var(--red); }
 
 .item-del {
   background: none; border: none; color: var(--muted); font-size: 0.8rem; cursor: pointer;
@@ -171,15 +145,9 @@ body {
 .item-del:hover { color: var(--red); }
 
 /* ── ADD TASK ROW ── */
-.add-row {
-  display: flex; align-items: center; padding: 0.35rem 0.85rem 0.55rem;
-  gap: 0.55rem; border-top: 1px solid var(--border);
-}
+.add-row { display: flex; align-items: center; padding: 0.35rem 0.85rem 0.55rem; gap: 0.55rem; border-top: 1px solid var(--border); }
 .add-row-plus { color: var(--muted); font-size: 0.95rem; flex-shrink: 0; }
-.add-input {
-  flex: 1; border: none; outline: none; font-size: 0.82rem; color: var(--text);
-  background: none; padding: 2px 3px; font-family: inherit; border-radius: 4px;
-}
+.add-input { flex: 1; border: none; outline: none; font-size: 0.82rem; color: var(--text); background: none; padding: 2px 3px; font-family: inherit; border-radius: 4px; }
 .add-input::placeholder { color: var(--muted); }
 .add-input:focus { background: var(--purple-l); color: var(--purple); }
 .add-submit {
@@ -191,17 +159,10 @@ body {
 .add-submit:hover { background: #6d28d9; }
 
 /* ── GROUP FOOTER ── */
-.grp-footer {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0.45rem 0.85rem 0.6rem; border-top: 1px solid var(--border);
-}
+.grp-footer { display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0.85rem 0.6rem; border-top: 1px solid var(--border); }
 .grp-done-label { font-size: 0.72rem; color: var(--muted); }
-.grp-clear-btn {
-  font-size: 0.72rem; color: var(--muted); background: none; border: none;
-  cursor: pointer; padding: 2px 7px; border-radius: 5px; transition: color 0.12s, background 0.12s;
-}
+.grp-clear-btn { font-size: 0.72rem; color: var(--muted); background: none; border: none; cursor: pointer; padding: 2px 7px; border-radius: 5px; transition: color 0.12s, background 0.12s; }
 .grp-clear-btn:hover { color: var(--red); background: var(--red-l); }
-
 .grp-empty { text-align: center; padding: 1rem 0.85rem 0.6rem; color: var(--muted); font-size: 0.78rem; }
 
 /* ── PAGE EMPTY STATE ── */
@@ -211,113 +172,76 @@ body {
 .empty-page p  { font-size: 0.82rem; color: var(--muted); }
 
 /* ── UNCATEGORIZED PANEL ── */
-.unc-panel {
-  width: 272px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 80px;
-  background: var(--card);
-  border-radius: var(--r);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  transition: box-shadow 0.15s;
-}
-.unc-panel.unc-drag-over {
-  box-shadow: 0 0 0 2px var(--unc), 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.unc-header {
-  display: flex; align-items: center; padding: 0.6rem 0.85rem;
-  gap: 0.5rem; background: var(--unc); user-select: none;
-}
-.unc-title { flex: 1; font-size: 0.88rem; font-weight: 700; color: white; }
-.unc-badge {
-  font-size: 0.68rem; font-weight: 600; background: rgba(255,255,255,0.22);
-  color: white; border-radius: 10px; padding: 1px 8px; flex-shrink: 0;
-}
-
-.unc-capture {
-  padding: 0.65rem 0.85rem 0.6rem;
-  border-bottom: 1px solid var(--border);
-  background: #f8fafc;
-}
-.unc-capture-label {
-  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.05em; color: var(--muted); margin-bottom: 5px; display: block;
-}
+.unc-panel { width: 272px; flex-shrink: 0; position: sticky; top: 80px; background: var(--card); border-radius: var(--r); box-shadow: var(--shadow); overflow: hidden; transition: box-shadow 0.15s; }
+.unc-panel.unc-drag-over { box-shadow: 0 0 0 2px var(--unc), 0 4px 12px rgba(0,0,0,0.1); }
+.unc-header { display: flex; align-items: center; padding: 0.6rem 0.85rem; gap: 0.5rem; background: var(--unc); user-select: none; }
+.unc-title  { flex: 1; font-size: 0.88rem; font-weight: 700; color: white; }
+.unc-badge  { font-size: 0.68rem; font-weight: 600; background: rgba(255,255,255,0.22); color: white; border-radius: 10px; padding: 1px 8px; flex-shrink: 0; }
+.unc-capture { padding: 0.65rem 0.85rem 0.6rem; border-bottom: 1px solid var(--border); background: #f8fafc; }
+.unc-capture-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 5px; display: block; }
 .unc-capture-input {
-  width: 100%; border: 1px solid var(--border); border-radius: 8px;
-  padding: 6px 9px; font-size: 0.82rem; font-family: inherit; color: var(--text);
-  outline: none; background: white; transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 6px 9px;
+  font-size: 0.82rem; font-family: inherit; color: var(--text); outline: none;
+  background: white; transition: border-color 0.15s, box-shadow 0.15s;
 }
 .unc-capture-input::placeholder { color: var(--muted); }
-.unc-capture-input:focus {
-  border-color: var(--unc);
-  box-shadow: 0 0 0 3px rgba(71,85,105,0.12);
-}
-
-.unc-items {
-  min-height: 4px;
-  padding: 4px 0;
-  max-height: calc(100vh - 260px);
-  overflow-y: auto;
-}
+.unc-capture-input:focus { border-color: var(--unc); box-shadow: 0 0 0 3px rgba(71,85,105,0.12); }
+.unc-items { min-height: 4px; padding: 4px 0; max-height: calc(100vh - 260px); overflow-y: auto; }
 .unc-items.drop-active { background: rgba(71,85,105,0.04); min-height: 44px; }
-
 .unc-item-drop-above { border-top: 2px solid var(--unc) !important; }
 .unc-item-drop-below { border-bottom: 2px solid var(--unc) !important; }
-
-.unc-footer {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0.45rem 0.85rem 0.6rem; border-top: 1px solid var(--border);
-}
+.unc-footer { display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0.85rem 0.6rem; border-top: 1px solid var(--border); }
 .unc-done-label { font-size: 0.72rem; color: var(--muted); }
+.unc-empty { text-align: center; padding: 1.25rem 0.85rem 0.9rem; color: var(--muted); font-size: 0.78rem; line-height: 1.6; }
 
-.unc-empty {
-  text-align: center; padding: 1.25rem 0.85rem 0.9rem;
-  color: var(--muted); font-size: 0.78rem; line-height: 1.6;
-}
-
-/* ── MODAL ── */
-.modal-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.38); z-index: 500; align-items: center; justify-content: center;
-}
+/* ── GROUP MODAL ── */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.38); z-index: 500; align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
 .modal { background: white; border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.22); width: 380px; max-width: 95vw; }
-.modal-hdr {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 1rem 1.25rem 0.75rem; border-bottom: 1px solid var(--border);
-}
+.modal-hdr { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem 0.75rem; border-bottom: 1px solid var(--border); }
 .modal-hdr h3 { font-size: 0.95rem; font-weight: 700; }
 .modal-x { background: none; border: none; color: var(--muted); font-size: 1.1rem; cursor: pointer; padding: 2px; line-height: 1; }
 .modal-x:hover { color: var(--text); }
 .modal-body { padding: 1.25rem; }
-.form-label {
-  display: block; font-size: 0.72rem; font-weight: 700; color: var(--text2);
-  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem;
-}
-.form-input {
-  width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px;
-  font-size: 0.85rem; font-family: inherit; color: var(--text); outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s; margin-bottom: 1rem;
-}
+.form-label { display: block; font-size: 0.72rem; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+.form-label .req { color: var(--red); margin-left: 2px; }
+.form-input { width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 0.85rem; font-family: inherit; color: var(--text); outline: none; transition: border-color 0.15s, box-shadow 0.15s; margin-bottom: 1rem; }
 .form-input:focus { border-color: var(--purple); box-shadow: 0 0 0 3px var(--purple-l); }
 .color-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0.25rem; }
-.c-swatch {
-  width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
-  border: 3px solid transparent; transition: transform 0.1s, border-color 0.1s;
-}
+.c-swatch { width: 26px; height: 26px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: transform 0.1s, border-color 0.1s; }
 .c-swatch:hover { transform: scale(1.15); }
 .c-swatch.sel { border-color: #1e293b; }
-.modal-ftr {
-  display: flex; gap: 8px; justify-content: flex-end;
-  padding: 0.75rem 1.25rem; border-top: 1px solid var(--border);
-}
+.modal-ftr { display: flex; gap: 8px; justify-content: flex-end; padding: 0.75rem 1.25rem; border-top: 1px solid var(--border); }
 .btn-sec { background: var(--bg); color: var(--text2); border: none; border-radius: 8px; padding: 7px 14px; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: background 0.12s; }
 .btn-sec:hover { background: var(--border); }
 .btn-danger { background: var(--red-l); color: var(--red); border: none; border-radius: 8px; padding: 7px 14px; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: background 0.12s, color 0.12s; margin-right: auto; }
 .btn-danger:hover { background: var(--red); color: white; }
+
+/* ── TASK MODAL ── */
+.task-modal { width: 460px; }
+.task-modal .modal-body { padding: 1.25rem 1.25rem 0.5rem; }
+
+/* Urgency selector */
+.urgency-btns { display: flex; gap: 6px; margin-bottom: 1rem; }
+.urg-sel-btn {
+  flex: 1; padding: 7px 4px; border-radius: 8px; border: 2px solid transparent;
+  font-size: 0.75rem; font-weight: 700; cursor: pointer; text-transform: uppercase;
+  letter-spacing: 0.04em; transition: border-color 0.12s, transform 0.1s; text-align: center;
+}
+.urg-sel-btn.low    { background: var(--green-l); color: var(--green); }
+.urg-sel-btn.medium { background: var(--blue-l);  color: var(--blue); }
+.urg-sel-btn.high   { background: var(--amber-l); color: var(--amber); }
+.urg-sel-btn.urgent { background: var(--red-l);   color: var(--red); }
+.urg-sel-btn.low.sel    { border-color: var(--green); }
+.urg-sel-btn.medium.sel { border-color: var(--blue); }
+.urg-sel-btn.high.sel   { border-color: var(--amber); }
+.urg-sel-btn.urgent.sel { border-color: var(--red); }
+.urg-sel-btn:hover { transform: translateY(-1px); }
+
+textarea.form-input { resize: vertical; min-height: 72px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.form-group { display: flex; flex-direction: column; }
+.form-group .form-input { margin-bottom: 0; }
 </style>
 </head>
 <body>
@@ -355,13 +279,10 @@ body {
 <main class="page">
   <div class="main-layout">
 
-    <!-- LEFT: groups column -->
     <div class="groups-col">
       <div class="progress-wrap" id="progress-wrap" style="display:none">
         <span class="progress-label" id="progress-label">0% complete</span>
-        <div class="progress-track">
-          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
       </div>
       <div class="groups-grid" id="groups-grid"></div>
       <div class="empty-page" id="empty-page" style="display:none">
@@ -371,7 +292,6 @@ body {
       </div>
     </div>
 
-    <!-- RIGHT: Uncategorized panel -->
     <div class="unc-panel" id="unc-panel">
       <div class="unc-header">
         <span class="unc-title">Uncategorized</span>
@@ -409,41 +329,91 @@ body {
   </div>
 </div>
 
+<!-- TASK MODAL -->
+<div class="modal-overlay" id="task-modal">
+  <div class="modal task-modal">
+    <div class="modal-hdr">
+      <h3 id="task-modal-title">Add Task</h3>
+      <button class="modal-x" onclick="closeTaskModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <label class="form-label">Title <span class="req">*</span></label>
+      <input type="text" class="form-input" id="tm-title" placeholder="Task title…" maxlength="120"
+             onkeydown="if(event.key==='Enter')saveTask()">
+
+      <label class="form-label">Urgency <span class="req">*</span></label>
+      <div class="urgency-btns" id="urgency-btns"></div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" style="margin-bottom:0.4rem">Due Date</label>
+          <input type="date" class="form-input" id="tm-due">
+        </div>
+      </div>
+
+      <label class="form-label" style="margin-top:0.75rem">Description</label>
+      <textarea class="form-input" id="tm-desc" placeholder="Optional notes or details…" rows="3"></textarea>
+    </div>
+    <div class="modal-ftr" id="task-modal-ftr">
+      <button class="btn-sec" onclick="closeTaskModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveTask()">Save Task</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ── CONSTANTS ──
-const KEY   = 'todoList_v1';
-const UNC   = '_uncategorized';   // sentinel gid for Uncategorized
+const KEY    = 'todoList_v1';
+const UNC    = '_uncategorized';
 const COLORS = ['#7c3aed','#059669','#dc2626','#3b82f6','#f59e0b','#0d9488','#db2777','#64748b'];
+const URGENCIES = ['low','medium','high','urgent'];
+const URG_LABELS = { low:'Low', medium:'Medium', high:'High', urgent:'Urgent' };
 
 // ── STATE ──
 let S = { groups: [], uncategorized: [] };
-let editGrpId   = null;
-let pickedColor = COLORS[0];
-let dragGrpId   = null;
-let dragItemId  = null;
-let dragItemGrp = null;  // gid or UNC
+let editGrpId    = null;
+let pickedColor  = COLORS[0];
+let dragGrpId    = null;
+let dragItemId   = null;
+let dragItemGrp  = null;
+
+// Task modal state
+let tmGid      = null;   // group id (or UNC)
+let tmIid      = null;   // item id (null = new)
+let tmUrgency  = 'medium';
 
 // ── PERSISTENCE ──
 function load() {
   try { const r = localStorage.getItem(KEY); if (r) S = JSON.parse(r); } catch(e) {}
   if (!Array.isArray(S.groups))        S.groups        = [];
   if (!Array.isArray(S.uncategorized)) S.uncategorized = [];
+  // Migrate items without urgency
+  const migrate = i => { if (!i.urgency) i.urgency = 'medium'; if (!i.description) i.description = ''; if (!i.dueDate) i.dueDate = ''; };
+  S.groups.forEach(g => g.items.forEach(migrate));
+  S.uncategorized.forEach(migrate);
 }
 function save() { localStorage.setItem(KEY, JSON.stringify(S)); }
 function uid()  { return Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
-
-// ── ITEM LIST ACCESSOR (handles UNC sentinel) ──
-function getList(gid) {
-  if (gid === UNC) return S.uncategorized;
-  return S.groups.find(g => g.id === gid)?.items ?? [];
-}
+function getList(gid) { return gid === UNC ? S.uncategorized : (S.groups.find(g => g.id === gid)?.items ?? []); }
 
 // ── STATS ──
 function stats() {
   let total = 0, done = 0;
-  for (const g of S.groups) { total += g.items.length; done += g.items.filter(i=>i.done).length; }
-  const unc = S.uncategorized.length;
-  return { total, done, left: total - done, unc };
+  S.groups.forEach(g => { total += g.items.length; done += g.items.filter(i=>i.done).length; });
+  return { total, done, left: total - done, unc: S.uncategorized.length };
+}
+
+// ── DUE DATE FORMATTING ──
+function fmtDue(dateStr) {
+  if (!dateStr) return null;
+  const now   = new Date(); now.setHours(0,0,0,0);
+  const due   = new Date(dateStr + 'T00:00:00');
+  const diff  = Math.round((due - now) / 86400000);
+  if (diff < 0)   return { label: `${Math.abs(diff)}d overdue`, cls: 'overdue' };
+  if (diff === 0) return { label: 'Today',    cls: 'today' };
+  if (diff === 1) return { label: 'Tomorrow', cls: 'soon' };
+  if (diff <= 7)  return { label: `${diff}d`,  cls: 'soon' };
+  return { label: due.toLocaleDateString('en-US',{month:'short',day:'numeric'}), cls: 'future' };
 }
 
 // ── RENDER ──
@@ -457,23 +427,20 @@ function render() {
   const groups = S.groups.length;
   document.getElementById('hdr-sub').textContent =
     groups === 0 ? 'No groups yet' :
-    `${groups} group${groups !== 1 ? 's' : ''} · ${st.total} task${st.total !== 1 ? 's' : ''}`;
+    `${groups} group${groups!==1?'s':''} · ${st.total} task${st.total!==1?'s':''}`;
 
-  // Progress (excludes uncategorized — they're not "committed" yet)
-  const pw = document.getElementById('progress-wrap');
+  const pw  = document.getElementById('progress-wrap');
   pw.style.display = st.total > 0 ? '' : 'none';
-  const pct = st.total > 0 ? Math.round((st.done / st.total) * 100) : 0;
-  document.getElementById('progress-fill').style.width = pct + '%';
+  const pct = st.total > 0 ? Math.round((st.done/st.total)*100) : 0;
+  document.getElementById('progress-fill').style.width  = pct + '%';
   document.getElementById('progress-label').textContent = pct + '% complete';
 
   document.getElementById('empty-page').style.display = groups === 0 ? '' : 'none';
 
-  // Groups
   const grid = document.getElementById('groups-grid');
   grid.innerHTML = '';
   for (const g of S.groups) grid.appendChild(buildGroupCard(g));
 
-  // Uncategorized panel
   renderUnc();
 }
 
@@ -493,11 +460,8 @@ function renderUnc() {
   } else {
     for (const item of items) container.appendChild(buildItemEl(item, UNC));
   }
-
-  // Reattach drop zone
   attachItemDropZone(container, UNC, true);
 
-  // Footer
   const panel = document.getElementById('unc-panel');
   const existingFtr = panel.querySelector('.unc-footer');
   if (existingFtr) existingFtr.remove();
@@ -517,8 +481,7 @@ function renderUnc() {
 function buildGroupCard(g) {
   const done  = g.items.filter(i => i.done).length;
   const total = g.items.length;
-
-  const card = document.createElement('div');
+  const card  = document.createElement('div');
   card.className = 'group-card';
   card.dataset.gid = g.id;
 
@@ -529,11 +492,9 @@ function buildGroupCard(g) {
   hdr.innerHTML = `
     <span class="grp-drag-icon">⠿</span>
     <input class="grp-name" type="text" value="${esc(g.name)}" data-gid="${g.id}"
-      onblur="renameGrp(this)"
-      onkeydown="if(event.key==='Enter')this.blur()"
-      onclick="event.stopPropagation()">
+      onblur="renameGrp(this)" onkeydown="if(event.key==='Enter')this.blur()" onclick="event.stopPropagation()">
     <span class="grp-count">${total}</span>
-    <button class="grp-add-btn" onclick="focusAdd('${g.id}')">+ Add</button>
+    <button class="grp-add-btn" onclick="openNewTaskModal('${g.id}','')">+ Add</button>
     <button class="grp-menu-btn" title="Edit group" onclick="openEditGroup('${g.id}')">⋯</button>`;
 
   hdr.addEventListener('dragstart', e => {
@@ -546,19 +507,14 @@ function buildGroupCard(g) {
     document.querySelectorAll('.group-card').forEach(c => c.classList.remove('grp-drag-over'));
     dragGrpId = null;
   });
-
   card.addEventListener('dragover', e => {
     if (dragGrpId && dragGrpId !== g.id) {
       e.preventDefault();
       document.querySelectorAll('.group-card').forEach(c => c.classList.remove('grp-drag-over'));
       card.classList.add('grp-drag-over');
-    } else if (dragItemId) {
-      e.preventDefault();
-    }
+    } else if (dragItemId) { e.preventDefault(); }
   });
-  card.addEventListener('dragleave', e => {
-    if (!card.contains(e.relatedTarget)) card.classList.remove('grp-drag-over');
-  });
+  card.addEventListener('dragleave', e => { if (!card.contains(e.relatedTarget)) card.classList.remove('grp-drag-over'); });
   card.addEventListener('drop', e => {
     card.classList.remove('grp-drag-over');
     if (dragGrpId && dragGrpId !== g.id) {
@@ -574,25 +530,23 @@ function buildGroupCard(g) {
   const list = document.createElement('div');
   list.className = 'grp-items';
   list.dataset.gid = g.id;
-
   if (g.items.length === 0) {
     const emp = document.createElement('div');
     emp.className = 'grp-empty';
-    emp.textContent = 'No tasks yet — add one below';
+    emp.textContent = 'No tasks yet — click "+ Add" above';
     list.appendChild(emp);
   } else {
     for (const item of g.items) list.appendChild(buildItemEl(item, g.id));
   }
-
   attachItemDropZone(list, g.id, false);
 
   const addRow = document.createElement('div');
   addRow.className = 'add-row';
   addRow.innerHTML = `
     <span class="add-row-plus">+</span>
-    <input class="add-input" id="add-${g.id}" placeholder="Add a task…"
-      onkeydown="if(event.key==='Enter')commitAdd('${g.id}',this)">
-    <button class="add-submit" onclick="commitAdd('${g.id}',document.getElementById('add-${g.id}'))">Add</button>`;
+    <input class="add-input" id="add-${g.id}" placeholder="Type a task and press Enter…"
+      onkeydown="if(event.key==='Enter')openNewTaskModal('${g.id}',this.value)">
+    <button class="add-submit" onclick="openNewTaskModal('${g.id}',document.getElementById('add-${g.id}').value)">Add</button>`;
 
   card.appendChild(hdr);
   card.appendChild(list);
@@ -606,7 +560,6 @@ function buildGroupCard(g) {
       <button class="grp-clear-btn" onclick="clearDone('${g.id}')">Clear done</button>`;
     card.appendChild(ftr);
   }
-
   return card;
 }
 
@@ -618,19 +571,43 @@ function buildItemEl(item, gid) {
   el.draggable = true;
   el.dataset.iid = item.id;
   el.dataset.gid = gid;
+
+  const due = fmtDue(item.dueDate);
+  const dueHtml = due ? `<span class="due-chip ${due.cls}">${due.label}</span>` : '';
+  const descHtml = item.description ? `<span style="font-size:0.68rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px">${esc(item.description)}</span>` : '';
+
   el.innerHTML = `
-    <span class="item-drag-handle" title="Drag to a group">⠿</span>
-    <div class="item-check${item.done ? ' checked' : ''}" onclick="toggleItem('${gid}','${item.id}')">${item.done ? '✓' : ''}</div>
-    <textarea class="item-text" rows="1"
-      onblur="updateText('${gid}','${item.id}',this)"
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();this.blur()}"
-      oninput="autoResize(this)"
-      >${esc(item.text)}</textarea>
-    <button class="item-del" onclick="deleteItem('${gid}','${item.id}')" title="Delete">✕</button>`;
+    <span class="item-drag-handle" title="Drag to reorder">⠿</span>
+    <div class="item-check${item.done ? ' checked' : ''}">
+      ${item.done ? '✓' : ''}
+    </div>
+    <div class="item-body">
+      <span class="item-title">${esc(item.text)}</span>
+      <div class="item-meta">
+        <span class="urg-pill ${item.urgency}">${URG_LABELS[item.urgency] || 'Medium'}</span>
+        ${dueHtml}
+        ${descHtml}
+      </div>
+    </div>
+    <button class="item-del" title="Delete">✕</button>`;
 
-  const ta = el.querySelector('.item-text');
-  setTimeout(() => autoResize(ta), 0);
+  // Checkbox click
+  el.querySelector('.item-check').addEventListener('click', e => {
+    e.stopPropagation();
+    toggleItem(gid, item.id);
+  });
+  // Delete click
+  el.querySelector('.item-del').addEventListener('click', e => {
+    e.stopPropagation();
+    deleteItem(gid, item.id);
+  });
+  // Row click → open edit modal
+  el.addEventListener('click', e => {
+    if (e.target.closest('.item-check') || e.target.closest('.item-del') || e.target.closest('.item-drag-handle')) return;
+    openEditTaskModal(gid, item.id);
+  });
 
+  // Drag
   el.addEventListener('dragstart', e => {
     if (dragGrpId) return;
     dragItemId  = item.id;
@@ -641,10 +618,9 @@ function buildItemEl(item, gid) {
   });
   el.addEventListener('dragend', () => {
     el.classList.remove('item-dragging');
-    document.querySelectorAll('.task-item').forEach(i => {
-      i.classList.remove('item-drop-above','item-drop-below','unc-item-drop-above','unc-item-drop-below');
-    });
-    document.querySelectorAll('.grp-items, .unc-items').forEach(c => c.classList.remove('drop-active'));
+    document.querySelectorAll('.task-item').forEach(i =>
+      i.classList.remove('item-drop-above','item-drop-below','unc-item-drop-above','unc-item-drop-below'));
+    document.querySelectorAll('.grp-items,.unc-items').forEach(c => c.classList.remove('drop-active'));
     dragItemId = null; dragItemGrp = null;
   });
 
@@ -653,8 +629,8 @@ function buildItemEl(item, gid) {
 
 // ── ITEM DROP ZONE ──
 function attachItemDropZone(container, gid, isUnc) {
-  const aboveClass = isUnc ? 'unc-item-drop-above' : 'item-drop-above';
-  const belowClass = isUnc ? 'unc-item-drop-below' : 'item-drop-below';
+  const aboveCls = isUnc ? 'unc-item-drop-above' : 'item-drop-above';
+  const belowCls = isUnc ? 'unc-item-drop-below' : 'item-drop-below';
 
   container.addEventListener('dragover', e => {
     if (!dragItemId) return;
@@ -665,12 +641,10 @@ function attachItemDropZone(container, gid, isUnc) {
     const target = e.target.closest('.task-item');
     if (target && target.dataset.iid !== dragItemId) {
       const rect = target.getBoundingClientRect();
-      target.classList.add(e.clientY < rect.top + rect.height / 2 ? aboveClass : belowClass);
+      target.classList.add(e.clientY < rect.top + rect.height/2 ? aboveCls : belowCls);
     }
   });
-  container.addEventListener('dragleave', e => {
-    if (!container.contains(e.relatedTarget)) container.classList.remove('drop-active');
-  });
+  container.addEventListener('dragleave', e => { if (!container.contains(e.relatedTarget)) container.classList.remove('drop-active'); });
   container.addEventListener('drop', e => {
     if (!dragItemId) return;
     e.preventDefault(); e.stopPropagation();
@@ -680,7 +654,6 @@ function attachItemDropZone(container, gid, isUnc) {
 
     const fromList = getList(dragItemGrp);
     const toList   = getList(gid);
-
     const fi = fromList.findIndex(i => i.id === dragItemId);
     if (fi === -1) return;
     const [moved] = fromList.splice(fi, 1);
@@ -689,69 +662,46 @@ function attachItemDropZone(container, gid, isUnc) {
     if (target && target.dataset.iid !== dragItemId) {
       const rect = target.getBoundingClientRect();
       let ti = toList.findIndex(i => i.id === target.dataset.iid);
-      if (e.clientY >= rect.top + rect.height / 2) ti++;
+      if (e.clientY >= rect.top + rect.height/2) ti++;
       toList.splice(ti, 0, moved);
     } else {
       toList.push(moved);
     }
-
     save(); render();
   });
 }
 
-// ── UNCATEGORIZED panel also accepts group-card drops on its header/panel ──
-document.getElementById('unc-panel').addEventListener('dragover', e => {
-  if (dragItemId) e.preventDefault();
-});
+document.getElementById('unc-panel').addEventListener('dragover', e => { if (dragItemId) e.preventDefault(); });
 
 // ── HELPERS ──
 function esc(s) {
-  return String(s)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
-function autoResize(ta) { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; }
 
 // ── ITEM ACTIONS ──
 function toggleItem(gid, iid) {
-  const list = getList(gid);
-  const i = list.find(x => x.id === iid); if (!i) return;
-  i.done = !i.done;
-  save(); render();
+  const i = getList(gid).find(x => x.id === iid); if (!i) return;
+  i.done = !i.done; save(); render();
 }
-
 function deleteItem(gid, iid) {
-  if (gid === UNC) {
-    S.uncategorized = S.uncategorized.filter(x => x.id !== iid);
-  } else {
-    const g = S.groups.find(x => x.id === gid); if (!g) return;
-    g.items = g.items.filter(x => x.id !== iid);
-  }
+  if (gid === UNC) { S.uncategorized = S.uncategorized.filter(x => x.id !== iid); }
+  else { const g = S.groups.find(x => x.id === gid); if (!g) return; g.items = g.items.filter(x => x.id !== iid); }
   save(); render();
 }
-
-function updateText(gid, iid, ta) {
-  const list = getList(gid);
-  const i = list.find(x => x.id === iid); if (!i) return;
-  const t = ta.value.trim();
-  if (!t) { deleteItem(gid, iid); return; }
-  i.text = t; save();
-}
-
-function commitAdd(gid, input) {
-  const text = input.value.trim(); if (!text) return;
+function clearDone(gid) {
   const g = S.groups.find(x => x.id === gid); if (!g) return;
-  g.items.push({ id: uid(), text, done: false, created: Date.now() });
-  save(); render();
-  const ni = document.getElementById('add-' + gid);
-  if (ni) ni.focus();
+  g.items = g.items.filter(i => !i.done); save(); render();
+}
+function clearDoneUnc() {
+  S.uncategorized = S.uncategorized.filter(i => !i.done); save(); render();
 }
 
+// Quick-capture for uncategorized (creates with default medium urgency)
 function commitAddUnc(input) {
   const text = input.value.trim(); if (!text) return;
-  S.uncategorized.push({ id: uid(), text, done: false, created: Date.now() });
-  input.value = '';
-  save(); render();
+  S.uncategorized.push({ id: uid(), text, done: false, created: Date.now(), urgency: 'medium', description: '', dueDate: '' });
+  input.value = ''; save(); render();
   document.getElementById('unc-input').focus();
 }
 
@@ -759,28 +709,104 @@ function focusAdd(gid) {
   const inp = document.getElementById('add-' + gid);
   if (inp) { inp.focus(); inp.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
 }
-
-function clearDone(gid) {
-  const g = S.groups.find(x => x.id === gid); if (!g) return;
-  g.items = g.items.filter(i => !i.done);
-  save(); render();
-}
-
-function clearDoneUnc() {
-  S.uncategorized = S.uncategorized.filter(i => !i.done);
-  save(); render();
-}
-
-// ── GROUP RENAME ──
 function renameGrp(input) {
   const gid = input.dataset.gid;
-  const name = input.value.trim();
   const g = S.groups.find(x => x.id === gid); if (!g) return;
+  const name = input.value.trim();
   if (!name) { input.value = g.name; return; }
   g.name = name; save();
 }
 
-// ── COLOR PICKER ──
+// ── TASK MODAL ──
+function buildUrgencyBtns(current) {
+  tmUrgency = current || 'medium';
+  const row = document.getElementById('urgency-btns');
+  row.innerHTML = '';
+  URGENCIES.forEach(u => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `urg-sel-btn ${u}${u === tmUrgency ? ' sel' : ''}`;
+    btn.textContent = URG_LABELS[u];
+    btn.onclick = () => {
+      tmUrgency = u;
+      document.querySelectorAll('.urg-sel-btn').forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+    };
+    row.appendChild(btn);
+  });
+}
+
+function openNewTaskModal(gid, prefill) {
+  // Clear the add-input if it was used to prefill
+  const inp = document.getElementById('add-' + gid);
+
+  tmGid = gid; tmIid = null;
+  document.getElementById('task-modal-title').textContent = 'Add Task';
+  document.getElementById('tm-title').value = (prefill || '').trim();
+  document.getElementById('tm-desc').value  = '';
+  document.getElementById('tm-due').value   = '';
+  buildUrgencyBtns('medium');
+  document.getElementById('task-modal-ftr').innerHTML = `
+    <button class="btn-sec" onclick="closeTaskModal()">Cancel</button>
+    <button class="btn-primary" onclick="saveTask()">Add Task</button>`;
+  document.getElementById('task-modal').classList.add('open');
+  setTimeout(() => {
+    const titleEl = document.getElementById('tm-title');
+    titleEl.focus();
+    titleEl.select();
+  }, 60);
+}
+
+function openEditTaskModal(gid, iid) {
+  const item = getList(gid).find(x => x.id === iid); if (!item) return;
+  tmGid = gid; tmIid = iid;
+  document.getElementById('task-modal-title').textContent = 'Edit Task';
+  document.getElementById('tm-title').value = item.text;
+  document.getElementById('tm-desc').value  = item.description || '';
+  document.getElementById('tm-due').value   = item.dueDate || '';
+  buildUrgencyBtns(item.urgency || 'medium');
+  document.getElementById('task-modal-ftr').innerHTML = `
+    <button class="btn-danger" onclick="deleteItem('${gid}','${iid}');closeTaskModal()">Delete</button>
+    <button class="btn-sec" onclick="closeTaskModal()">Cancel</button>
+    <button class="btn-primary" onclick="saveTask()">Save</button>`;
+  document.getElementById('task-modal').classList.add('open');
+  setTimeout(() => document.getElementById('tm-title').focus(), 60);
+}
+
+function closeTaskModal() {
+  document.getElementById('task-modal').classList.remove('open');
+  // Clear add input if it was used
+  if (tmGid && tmGid !== UNC) {
+    const inp = document.getElementById('add-' + tmGid);
+    if (inp) inp.value = '';
+  }
+  tmGid = null; tmIid = null;
+}
+
+function saveTask() {
+  const title = document.getElementById('tm-title').value.trim();
+  if (!title) { document.getElementById('tm-title').focus(); return; }
+
+  const data = {
+    text: title,
+    urgency: tmUrgency,
+    description: document.getElementById('tm-desc').value.trim(),
+    dueDate: document.getElementById('tm-due').value,
+  };
+
+  if (tmIid) {
+    // Edit existing
+    const item = getList(tmGid).find(x => x.id === tmIid);
+    if (item) Object.assign(item, data);
+  } else {
+    // Create new
+    getList(tmGid).push({ id: uid(), done: false, created: Date.now(), ...data });
+  }
+
+  save(); render(); closeTaskModal();
+}
+
+// ── GROUP MODAL ──
 function buildColorPicker(current) {
   pickedColor = current || COLORS[0];
   const row = document.getElementById('color-row');
@@ -797,8 +823,6 @@ function buildColorPicker(current) {
     row.appendChild(sw);
   });
 }
-
-// ── GROUP MODAL ──
 function openAddGroup() {
   editGrpId = null;
   document.getElementById('grp-modal-title').textContent = 'Add Group';
@@ -810,7 +834,6 @@ function openAddGroup() {
   document.getElementById('grp-modal').classList.add('open');
   setTimeout(() => document.getElementById('grp-name-input').focus(), 60);
 }
-
 function openEditGroup(gid) {
   editGrpId = gid;
   const g = S.groups.find(x => x.id === gid); if (!g) return;
@@ -824,12 +847,7 @@ function openEditGroup(gid) {
   document.getElementById('grp-modal').classList.add('open');
   setTimeout(() => document.getElementById('grp-name-input').focus(), 60);
 }
-
-function closeGrpModal() {
-  document.getElementById('grp-modal').classList.remove('open');
-  editGrpId = null;
-}
-
+function closeGrpModal() { document.getElementById('grp-modal').classList.remove('open'); editGrpId = null; }
 function saveGroup() {
   const name = document.getElementById('grp-name-input').value.trim();
   if (!name) { document.getElementById('grp-name-input').focus(); return; }
@@ -841,19 +859,16 @@ function saveGroup() {
   }
   save(); render(); closeGrpModal();
 }
-
 function deleteGroup(gid) {
   if (!confirm('Delete this group and all its tasks?')) return;
   S.groups = S.groups.filter(x => x.id !== gid);
   save(); render(); closeGrpModal();
 }
 
-document.getElementById('grp-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('grp-modal')) closeGrpModal();
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeGrpModal();
-});
+// ── MODAL CLOSE ──
+document.getElementById('grp-modal').addEventListener('click', e => { if (e.target === document.getElementById('grp-modal')) closeGrpModal(); });
+document.getElementById('task-modal').addEventListener('click', e => { if (e.target === document.getElementById('task-modal')) closeTaskModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeGrpModal(); closeTaskModal(); } });
 
 // ── INIT ──
 load();
